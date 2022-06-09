@@ -9,21 +9,25 @@
 
 <ion-content>
   <ion-searchbar mode="ios" animated (ionInput)="searchBook($event)" showCancelButton="focus"></ion-searchbar>
-  <ion-list id="bookList">
+  <ion-list id="bookList" lines="none" class="ion-margin">
     <ion-item-sliding *ngFor="let book of books">
-      <ion-item>
-        <ion-avatar slot="start">
-          <img src="data:image/png;base64,{{ book.img_64 }}" />
-        </ion-avatar>
-        <ion-label>
-          <h2>{{ book.title }}</h2>
-          <h3>{{ book.author }}</h3>
-          <p>{{ book.description }}</p>
-        </ion-label>
-      </ion-item>
-      <ion-item-options side="end">
-        <ion-item-option (click)="deleteBook()" color="danger">Delete</ion-item-option>
-      </ion-item-options>
+      <div>
+        <ion-item>
+          <ion-avatar slot="start">
+            <img src="data:image/png;base64,{{ book.img_64 }}" />
+          </ion-avatar>
+          <ion-label>
+            <h2>{{ book.title }}</h2>
+            <h3>{{ book.author }}</h3>
+            <p>{{ book.description }}</p>
+          </ion-label>
+          <ion-badge color="success" slot="end" *ngIf="book.borrower == ''">Available</ion-badge>
+          <ion-badge color="secondary" slot="end" *ngIf="book.borrower != ''">Occupied</ion-badge>
+        </ion-item>
+        <ion-item-options side="end">
+          <ion-item-option (click)="deleteBook()" color="danger">Delete</ion-item-option>
+        </ion-item-options>
+      </div>
     </ion-item-sliding>
   </ion-list>
 </ion-content>
