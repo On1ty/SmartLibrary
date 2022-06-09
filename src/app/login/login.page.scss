@@ -1,0 +1,50 @@
+.grid {
+  background-color: #fbab7e;
+  background-image: linear-gradient(62deg, #fbab7e 0%, #f7ce68 100%);
+  display: grid;
+  gap: 1rem;
+  grid-template-areas:
+    "one"
+    "two"
+    "three";
+  height: 100%;
+  grid-template-rows: 6fr 7fr 1fr;
+  padding-inline: 5%;
+
+  .grid-child:nth-child(1) {
+    grid-area: one;
+    text-align: center;
+    align-self: center;
+  }
+
+  .grid-child:nth-child(2) {
+    grid-area: two;
+  }
+
+  .grid-child:nth-child(3) {
+    grid-area: three;
+  }
+}
+
+.logo {
+  width: 50%;
+  height: auto;
+}
+
+.login-form {
+  ion-item {
+    border-radius: 10px;
+    margin-block: 1em;
+  }
+}
+
+.version {
+    text-align: center;
+    color: var(--ion-color-dark);
+}
+
+.login-button {
+    height: 50px;
+    --border-radius: 10px;
+    margin-inline: 0;
+}

@@ -1,0 +1,25 @@
+<ion-content>
+<div class="grid">
+  <div class="grid-child">
+    <img class="logo" src="../assets/login/logo.png" alt="logo">
+  </div>
+  <div class="grid-child" (ngSubmit)="loginUser()">
+    <form action="" class="login-form">
+      <ion-item lines="none">
+        <ion-input placeholder="Librarian" type="text" name="username" required >
+        </ion-input>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-input placeholder="Password" type="password" name="username" required>
+        </ion-input>
+      </ion-item>
+      <div class="text-center">
+        <ion-button expand="block" type="button" color="primary" class="login-button" (click)="loginUser()">Login</ion-button>
+      </div>
+    </form>
+  </div>
+  <div class="grid-child">
+    <p class="version">Mariel Andoy • v0001</p>
+  </div>
+</div>
+</ion-content>

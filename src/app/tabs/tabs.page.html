@@ -1,0 +1,15 @@
+<ion-tabs>
+  <ion-tab-bar slot="bottom">
+    <ion-tab-button tab="home" #home>
+      <ion-icon [name]="home.selected ? 'home' : 'home-outline'"></ion-icon>
+      <ion-label>Home</ion-label>
+    </ion-tab-button>
+    <ion-tab-button (click)="scan()">
+      <ion-icon name="scan-circle-outline" size="large"></ion-icon>
+    </ion-tab-button>
+    <ion-tab-button tab="books" #books>
+      <ion-icon [name]="books.selected ? 'book' : 'book-outline'"></ion-icon>
+      <ion-label>Books</ion-label>
+    </ion-tab-button>
+  </ion-tab-bar>
+</ion-tabs>

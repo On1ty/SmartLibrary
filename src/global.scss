@@ -24,3 +24,19 @@
 @import "~@ionic/angular/css/text-alignment.css";
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
+
+
+@font-face {
+    font-family: "Ubuntu";
+    src: url("../src/assets/fonts/Ubuntu-Regular.woff2") format("woff2"),
+        url("../src/assets/fonts/Ubuntu-Regular.woff") format("woff"),
+        url("../src/assets/fonts/Ubuntu-Regular.ttf") format("truetype");
+}
+
+* {
+    font-family: "Ubuntu" !important;
+}
+
+.text-center {
+    text-align: center !important;
+}
