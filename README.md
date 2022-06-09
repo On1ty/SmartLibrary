@@ -12,7 +12,7 @@ I do not know how to create a description. It is just called Smart Library Syste
 
 ## Deployment
 
-To deploy this project run follow this instruction
+To deploy this project run follow these:
 
 ```bash
   npm install
