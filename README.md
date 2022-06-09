@@ -1,2 +1,2 @@
-# SmaryLibrary
+# SmartLibrary
 For my sister
