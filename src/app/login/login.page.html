@@ -14,7 +14,7 @@
         </ion-input>
       </ion-item>
       <div class="text-center">
-        <ion-button expand="block" type="submit" color="primary" class="login-button">Login</ion-button>
+        <ion-button expand="block" type="submit" color="primary" [disabled]="!loginForm.valid" class="login-button">Login</ion-button>
       </div>
     </form>
   </div>
