@@ -6,14 +6,12 @@
           <ion-list-header>Librarian</ion-list-header>
           <ion-note>Mariel Andoy</ion-note>
 
-          <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages; let i = index">
-            <ion-item routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false"
+          <ion-menu-toggle auto-hide="false">
+            <ion-item routerDirection="root" routerLink="/folder/Outbox" lines="none" detail="false"
               routerLinkActive="selected">
-              <ion-icon slot="start" name="{{ p.icon }}"></ion-icon>
-              <ion-label>{{ p.title }}</ion-label>
+              <ion-icon slot="start" name="receipt-outline"></ion-icon>
+              <ion-label>Reports</ion-label>
             </ion-item>
-          </ion-menu-toggle>
-          <ion-menu-toggle>
             <ion-item lines="none" detail="false" (click)="logout()">
               <ion-icon slot="start" name="log-out-outline"></ion-icon>
               <ion-label>Logout</ion-label>

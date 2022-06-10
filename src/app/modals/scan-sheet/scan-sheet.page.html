@@ -10,8 +10,12 @@
 </ion-header>
 
 <ion-content class="ion-padding-top">
-  <ion-item *ngFor="let item of items" lines="none">
-    <ion-label>{{ item.text }}</ion-label>
-    <ion-icon [name]="item.icon" slot="start"></ion-icon>
+  <ion-item lines="none" (click)="scanQr()">
+    <ion-label>Scan QR Code</ion-label>
+    <ion-icon name="qr-code-outline" slot="start"></ion-icon>
+  </ion-item>
+  <ion-item lines="none">
+    <ion-label>Facial Recognition</ion-label>
+    <ion-icon name="scan-outline" slot="start"></ion-icon>
   </ion-item>
 </ion-content>

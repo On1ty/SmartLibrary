@@ -49,7 +49,7 @@ export class LoginPage implements OnInit {
         message: "Wrong credentials. Please try again.",
         backdropDismiss: false,
         buttons: [{
-          text: "OK",
+          text: "Ok",
           handler: () => {
             alert.dismiss();
           }
