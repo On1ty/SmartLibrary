@@ -20,15 +20,16 @@
       <div>
         <ion-item>
           <ion-avatar slot="start">
-            <img src="data:image/png;base64,{{ book.img_64 }}" />
+            <img src="{{ book.img_64 }}" />
           </ion-avatar>
           <ion-label>
             <h2>{{ book.title }}</h2>
             <h3>{{ book.author }}</h3>
             <p>{{ book.description }}</p>
           </ion-label>
-          <ion-badge color="success" slot="end" *ngIf="book.borrower == ''">Available</ion-badge>
-          <ion-badge color="secondary" slot="end" *ngIf="book.borrower != ''">Occupied</ion-badge>
+          <ion-badge class="book-status" color="success" slot="end" *ngIf="book.status == 'available'">{{ book.status }}</ion-badge>
+          <ion-badge class="book-status" color="secondary" slot="end" *ngIf="book.status == 'borrowed'">{{ book.status }}</ion-badge>
+          <ion-badge class="book-status" color="danger" slot="end" *ngIf="book.status == 'lost'">{{ book.status }}</ion-badge>
         </ion-item>
         <ion-item-options side="end">
           <ion-item-option (click)="deleteBook()" color="danger">Delete</ion-item-option>

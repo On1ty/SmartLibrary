@@ -63,7 +63,8 @@ export class LoginPage implements OnInit {
         const result = res.filter((user) => user.user === formData.user && user.password === formData.password);
   
         if (result.length > 0) {
-          this.storage.set('user', result);
+          this.storage.set('user', result[0]);
+          console.log(result);
           this.router.navigate(['home']);
           return;
         }

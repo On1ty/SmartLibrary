@@ -1,0 +1,34 @@
+form {
+    height: 100%;
+}
+
+.grid {
+    display: grid;
+    gap: 1rem;
+    grid-template-areas:
+        "one"
+        "two";
+    height: 100%;
+    grid-template-rows: 2fr 1fr ;
+
+    .grid-child:nth-child(1) {
+        grid-area: one;
+    }
+
+    .grid-child:nth-child(2) {
+        grid-area: two;
+        align-self: flex-end;
+    }
+}
+
+.note {
+    font-size: .6rem;
+}
+
+ion-item {
+    margin-block: .8rem;
+}
+
+.submit-btn {
+    height: 2.2rem;
+}

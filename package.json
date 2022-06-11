@@ -33,6 +33,7 @@
     "@ionic/cordova-builders": "^6.1.0",
     "@ionic/storage-angular": "^3.0.6",
     "cordova-android": "10.1.2",
+    "moment": "^2.29.3",
     "phonegap-plugin-barcodescanner": "^8.1.0",
     "rxjs": "~6.6.0",
     "tslib": "^2.2.0",

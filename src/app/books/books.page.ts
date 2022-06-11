@@ -19,16 +19,10 @@ export class BooksPage implements OnInit {
   ) { }
 
   ngOnInit() {
-
     this.dataService.getBooks().subscribe(res => {
       this.books = res;
       console.log(res);
     });
-
-    this.storage.get('user')
-      .then(res => {
-        console.log(res);
-      })
   }
 
   deleteBook() {

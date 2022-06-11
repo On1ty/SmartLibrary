@@ -7,6 +7,37 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-
+<ion-content class="ion-padding">
+  <form action="" [formGroup]="addBookForm" (ngSubmit)="addBook()">
+    <div class="grid">
+      <div class="grid-child">
+        <ion-item fill="outline">
+          <ion-label position="floating">Title</ion-label>
+          <ion-input placeholder="Book Title" formControlName="title"></ion-input>
+        </ion-item>
+        <ion-item fill="outline">
+          <ion-label position="floating">Author</ion-label>
+          <ion-input placeholder="Author/s" formControlName="author"></ion-input>
+        </ion-item>
+        <ion-text class="note">
+          If there more than one author, seperate them by comma (,). Example: Juan, Carlo
+        </ion-text>
+        <ion-item fill="outline">
+          <ion-label position="floating">Description</ion-label>
+          <ion-textarea clearOnEdit="true" placeholder="Book Description" formControlName="description"></ion-textarea>
+        </ion-item>
+        <ion-item fill="outline">
+          <ion-label position="floating">Genre</ion-label>
+          <ion-input placeholder="Book Genre" formControlName="genre"></ion-input>
+        </ion-item>
+        <ion-item fill="outline">
+          <ion-label position="floating">Shelf Number</ion-label>
+          <ion-input placeholder="Book shelf number" formControlName="shelf_no"></ion-input>
+        </ion-item>
+      </div>
+      <div class="grid-child">
+        <ion-button expand="block" class="submit-btn" type="submit">Submit</ion-button>
+      </div>
+    </div>
+  </form>
 </ion-content>
