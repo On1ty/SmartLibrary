@@ -23,8 +23,16 @@ export class ScanSheetPage implements OnInit {
   }
 
   scanQr() {
-    this.barcodeScanner.scan().then(barcodeData => {
+    this.barcodeScanner.scan({
+      formats: "QR_CODE",
+      prompt: "Scan book QR code",
+      resultDisplayDuration: 0,
+      showTorchButton: true
+    }).then(barcodeData => {
+
       console.log('Barcode data', barcodeData);
+      alert(barcodeData);
+
     }).catch(async err => {
 
       let alert = await this.alertCtrl.create({

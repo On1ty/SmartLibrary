@@ -1,6 +1,7 @@
-/* eslint-disable @typescript-eslint/dot-notation */
 import { DataService } from './../services/data.service';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { Storage } from "@ionic/storage-angular";
 
 @Component({
   selector: 'app-books',
@@ -12,14 +13,22 @@ export class BooksPage implements OnInit {
   books: any = [];
 
   constructor(
-    private dataService: DataService
+    private dataService: DataService,
+    private router: Router,
+    private storage: Storage,
   ) { }
 
   ngOnInit() {
+
     this.dataService.getBooks().subscribe(res => {
       this.books = res;
       console.log(res);
     });
+
+    this.storage.get('user')
+      .then(res => {
+        console.log(res);
+      })
   }
 
   deleteBook() {
@@ -36,5 +45,9 @@ export class BooksPage implements OnInit {
         item['style'].display = shouldShow ? 'block' : 'none';
       });
     });
+  }
+
+  navToAddBook() {
+    this.router.navigate(['add-book']);
   }
 }

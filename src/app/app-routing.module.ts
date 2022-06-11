@@ -16,17 +16,17 @@ const routes: Routes = [
     loadChildren: () => import('./login/login.module').then( m => m.LoginPageModule)
   },
   {
-    path: 'scan-sheet',
-    loadChildren: () => import('./modals/scan-sheet/scan-sheet.module').then( m => m.ScanSheetPageModule)
-  },
-  {
     path: 'home',
     redirectTo: 'tabs/home',
   },
   {
     path: 'books',
     loadChildren: () => import('./books/books.module').then( m => m.BooksPageModule)
+  },  {
+    path: 'add-book',
+    loadChildren: () => import('./add-book/add-book.module').then( m => m.AddBookPageModule)
   },
+
   // {
   //   path: 'folder/:id',
   //   loadChildren: () => import('./folder/folder.module').then( m => m.FolderPageModule)
