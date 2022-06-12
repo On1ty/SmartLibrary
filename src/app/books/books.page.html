@@ -32,7 +32,7 @@
           <ion-badge class="book-status" color="danger" slot="end" *ngIf="book.status == 'lost'">{{ book.status }}</ion-badge>
         </ion-item>
         <ion-item-options side="end">
-          <ion-item-option (click)="deleteBook()" color="danger">Delete</ion-item-option>
+          <ion-item-option (click)="deleteBook($event)" data-id="{{ book.id }}" color="danger">Delete</ion-item-option>
         </ion-item-options>
       </div>
     </ion-item-sliding>

@@ -12,6 +12,9 @@ import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BarcodeScanner } from '@awesome-cordova-plugins/barcode-scanner/ngx';
 import { IonicStorageModule } from '@ionic/storage-angular';
+import { Camera } from '@awesome-cordova-plugins/camera/ngx';
+import { AndroidPermissions } from '@awesome-cordova-plugins/android-permissions/ngx';
+import { WebView } from '@awesome-cordova-plugins/ionic-webview/ngx';
 
 @NgModule({
   declarations: [AppComponent],
@@ -29,8 +32,12 @@ import { IonicStorageModule } from '@ionic/storage-angular';
       provide: RouteReuseStrategy,
       useClass: IonicRouteStrategy
     },
-    BarcodeScanner
+    BarcodeScanner,
+    Camera,
+    AndroidPermissions,
+    WebView
   ],
   bootstrap: [AppComponent],
+  
 })
 export class AppModule { }

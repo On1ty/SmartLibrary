@@ -13,7 +13,7 @@ import { ScanSheetPage } from './scan-sheet.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    ScanSheetPageRoutingModule
+    ScanSheetPageRoutingModule,
   ],
   declarations: [ScanSheetPage]
 })

@@ -2,6 +2,7 @@ import { DataService } from './../services/data.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Storage } from "@ionic/storage-angular";
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-books',
@@ -16,6 +17,7 @@ export class BooksPage implements OnInit {
     private dataService: DataService,
     private router: Router,
     private storage: Storage,
+    private alertController: AlertController,
   ) { }
 
   ngOnInit() {
@@ -25,8 +27,45 @@ export class BooksPage implements OnInit {
     });
   }
 
-  deleteBook() {
+  async deleteBook($event) {
+    let confirm = await this.alertController.create({
+      subHeader: "Delete Confirmation",
+      message: "Are you sure you want to delete the book?",
+      backdropDismiss: false,
+      buttons: [
+        { text: "Cancel" },
+        {
+          text: "Ok",
+          handler: async () => {
 
+            const id = $event.target.getAttribute('id');
+            const result = this.dataService.deleteBook(id);
+
+            let message = "";
+
+            if (result) {
+              message = "Successfully deleted book"
+              this.router.navigate(['books']);
+            } else {
+              message = "There was a problem while deleting book. Please try again."
+            }
+
+            let alert = await this.alertController.create({
+              subHeader: "Message",
+              message: message,
+              backdropDismiss: false,
+              buttons: [{
+                text: "Ok",
+                handler: () => {
+                  alert.dismiss();
+                }
+              }],
+            });
+            alert.present();
+          }
+        }],
+    });
+    confirm.present();
   }
 
   searchBook(event) {

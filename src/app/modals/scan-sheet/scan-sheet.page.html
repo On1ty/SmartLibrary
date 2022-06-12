@@ -14,8 +14,11 @@
     <ion-label>Scan QR Code</ion-label>
     <ion-icon name="qr-code-outline" slot="start"></ion-icon>
   </ion-item>
-  <ion-item lines="none">
+  <ion-item lines="none" (click)="openGallery()">
     <ion-label>Facial Recognition</ion-label>
     <ion-icon name="scan-outline" slot="start"></ion-icon>
+  </ion-item>
+  <ion-item lines="none" hidden>
+    <input type="file" (change)="scanFace($event)" accept="image/*" #fileButton/>
   </ion-item>
 </ion-content>

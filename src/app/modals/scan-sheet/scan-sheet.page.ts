@@ -1,6 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { AlertController, ModalController } from '@ionic/angular';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { AlertController, LoadingController, ModalController } from '@ionic/angular';
 import { BarcodeScanner } from '@awesome-cordova-plugins/barcode-scanner/ngx';
+import * as faceapi from '@vladmandic/face-api/dist/face-api.esm.js';
+import { Camera, CameraOptions } from '@awesome-cordova-plugins/camera/ngx';
+import { AndroidPermissions } from '@awesome-cordova-plugins/android-permissions/ngx';
+import { WebView } from '@awesome-cordova-plugins/ionic-webview/ngx';
+import { Router } from '@angular/router';
+import { BookDetailsPage } from '../book-details/book-details.page';
 
 @Component({
   selector: 'app-scan-sheet',
@@ -9,13 +15,33 @@ import { BarcodeScanner } from '@awesome-cordova-plugins/barcode-scanner/ngx';
 })
 export class ScanSheetPage implements OnInit {
 
+  @ViewChild('fileButton', { static: false }) fileButton;
+
+  private labeledFaceDescriptors;
+  private faceMatcher;
+  private image;
+  private canvas;
+
   constructor(
     private modalCtrl: ModalController,
     private barcodeScanner: BarcodeScanner,
     private alertCtrl: AlertController,
+    private camera: Camera,
+    private androidPermissions: AndroidPermissions,
+    private alertController: AlertController,
+    private webview: WebView,
+    private router: Router,
+    private loadingController: LoadingController,
+    private modalController: ModalController
   ) { }
 
-  ngOnInit() {
+  async ngOnInit() {
+    await faceapi.nets.ssdMobilenetv1.loadFromUri('/assets/face-api/models');
+    await faceapi.nets.faceLandmark68Net.loadFromUri('/assets/face-api/models');
+    await faceapi.nets.faceRecognitionNet.loadFromUri('/assets/face-api/models');
+
+    this.labeledFaceDescriptors = await this.loadLabeledImages();
+    this.faceMatcher = new faceapi.FaceMatcher(this.labeledFaceDescriptors, 0.6);
   }
 
   dismiss() {
@@ -28,10 +54,19 @@ export class ScanSheetPage implements OnInit {
       prompt: "Scan book QR code",
       resultDisplayDuration: 0,
       showTorchButton: true
-    }).then(barcodeData => {
+    }).then(async barcodeData => {
 
-      console.log('Barcode data', barcodeData);
-      alert(barcodeData);
+      const modal = await this.modalController.create({
+        component: BookDetailsPage,
+        swipeToClose: false,
+        presentingElement: await this.modalController.getTop(),
+        showBackdrop: true,
+        componentProps: {
+          id: barcodeData.text
+        }
+      });
+
+      await modal.present();
 
     }).catch(async err => {
 
@@ -51,4 +86,133 @@ export class ScanSheetPage implements OnInit {
     });
   }
 
+  navToFaceRecog() {
+    this.router.navigate(['face-recog']);
+    this.dismiss();
+  }
+
+  openGallery() {
+    this.fileButton.nativeElement.click();
+    console.log('open gallery');
+  }
+
+  async scanFace(event) {
+    console.log('scanning');
+    const loading = await this.loadingController.create({
+      spinner: 'dots',
+      message: 'Scanning Image',
+    });
+
+    loading.present();
+
+    try {
+
+      if (this.image) this.image.remove();
+      if (this.canvas) this.canvas.remove();
+
+      this.image = await faceapi.bufferToImage(event.target.files[0]);
+      this.canvas = faceapi.createCanvasFromMedia(this.image);
+      const displaySize = { width: this.image.width, height: this.image.height };
+
+      faceapi.matchDimensions(this.canvas, displaySize);
+
+      const detections = await faceapi
+        .detectAllFaces(this.image)
+        .withFaceLandmarks()
+        .withFaceDescriptors();
+      const resizedDetections = faceapi.resizeResults(detections, displaySize);
+
+      const results = resizedDetections.map((d) =>
+        this.faceMatcher.findBestMatch(d.descriptor)
+      );
+
+      let known = true;
+      let label = "";
+
+      if (results.length > 0) {
+
+        results.forEach(async res => {
+          label = res['_label'];
+
+          if (res['_label'] === 'unknown') {
+            known = false;
+          }
+        })
+
+        if (known) {
+
+          let alert = await this.alertCtrl.create({
+            subHeader: "",
+            message: label,
+            backdropDismiss: false,
+            buttons: [{
+              text: 'Ok',
+              handler: () => {
+                alert.dismiss();
+              }
+            }]
+          })
+
+          alert.present();
+          return true;
+
+        } else {
+
+          let alert = await this.alertCtrl.create({
+            subHeader: "",
+            message: "No person found on database.",
+            backdropDismiss: false,
+            buttons: [{
+              text: 'Ok',
+              handler: () => {
+                alert.dismiss();
+              }
+            }]
+          })
+
+          alert.present();
+          return true;
+        }
+      }
+
+    } catch (error) {
+      let alert = await this.alertCtrl.create({
+        subHeader: "Error",
+        message: error,
+        backdropDismiss: false,
+        buttons: [{
+          text: 'Ok',
+          handler: () => {
+            alert.dismiss();
+          }
+        }]
+      })
+
+      alert.present();
+    } finally {
+      loading.dismiss();
+    }
+  }
+
+  loadLabeledImages() {
+
+    const labels = ["Ying Pallo Andoy", "Hany Liza Azures"];
+
+    return Promise.all(
+      labels.map(async (label) => {
+
+        const descriptions = [];
+        const img = await faceapi.fetchImage(`/assets/face-api/persons/${label}.jpg`);
+
+        const detections = await faceapi
+          .detectSingleFace(img)
+          .withFaceLandmarks()
+          .withFaceDescriptor();
+
+        descriptions.push(detections.descriptor);
+
+        return new faceapi.LabeledFaceDescriptors(label, descriptions);
+      })
+    );
+  }
 }

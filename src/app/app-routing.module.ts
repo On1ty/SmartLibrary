@@ -19,10 +19,11 @@ const routes: Routes = [
     path: 'home',
     redirectTo: 'tabs/home',
   },
+  // {
+  //   path: 'books',
+  //   loadChildren: () => import('./books/books.module').then( m => m.BooksPageModule)
+  // },
   {
-    path: 'books',
-    loadChildren: () => import('./books/books.module').then( m => m.BooksPageModule)
-  },  {
     path: 'add-book',
     loadChildren: () => import('./add-book/add-book.module').then( m => m.AddBookPageModule)
   },
