@@ -1,0 +1,64 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="tabs/books"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Book Details</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div class="book-details">
+    <ion-card *ngIf="id" class="ion-text-center">
+      <ngx-qrcode [value]="id" [elementType]="elementType" [width]="300"  [errorCorrectionLevel]="errorCorrectionLevel">
+      </ngx-qrcode>
+      <ion-card-content>
+        <ion-button class="download-btn" expand="full" color="tertiary" (click)="downloadQR()">
+          <ion-icon name="download" slot="start"></ion-icon>
+          Download QR Code
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+    <ion-item class="ion-margin">
+      <ion-label position="stacked">Book ID</ion-label>
+      <ion-input placeholder="Null" [value]="book.id" readonly></ion-input>
+    </ion-item>
+    <ion-item class="ion-margin">
+      <ion-label position="stacked">Book Title</ion-label>
+      <ion-input placeholder="Null" [value]="book.title" readonly></ion-input>
+    </ion-item>
+    <ion-item class="ion-margin">
+      <ion-label position="stacked">Book Genre</ion-label>
+      <ion-input placeholder="Null" [value]="book.genre" readonly></ion-input>
+    </ion-item>
+    <ion-item class="ion-margin">
+      <ion-label position="stacked">Book Author</ion-label>
+      <ion-input placeholder="Null" [value]="book.author" readonly></ion-input>
+    </ion-item>
+    <ion-item class="ion-margin">
+      <ion-label position="stacked">Book Description</ion-label>
+      <ion-textarea placeholder="Null" [value]="book.description" readonly></ion-textarea>
+    </ion-item>
+    <ion-item class="ion-margin">
+      <ion-label position="stacked">Shelf Number</ion-label>
+      <ion-input placeholder="Null" [value]="book.shelf_no" readonly></ion-input>
+    </ion-item>
+    <ion-item class="ion-margin">
+      <ion-label position="stacked">Book Status</ion-label>
+      <ion-input placeholder="Null" [value]="book.status" readonly></ion-input>
+    </ion-item>
+    <ion-item class="ion-margin">
+      <ion-label position="stacked">Book Added</ion-label>
+      <ion-input placeholder="Null" [value]="book.date_added" readonly></ion-input>
+    </ion-item>
+    <ion-item class="ion-margin">
+      <ion-label position="stacked">Added By</ion-label>
+      <ion-input placeholder="Null" [value]="book.added_by" readonly></ion-input>
+    </ion-item>
+    <ion-item class="ion-margin">
+      <ion-label position="stacked">Borrower</ion-label>
+      <ion-input placeholder="Null" [value]="book.borrower" readonly></ion-input>
+    </ion-item>
+  </div>
+</ion-content>
+

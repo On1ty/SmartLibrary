@@ -73,7 +73,7 @@ export class AddBookPage implements OnInit {
 
     if (result) {
       message = "Successfully added book"
-      this.router.navigate(['books']);
+      this.router.navigate(['tabs/books']);
     } else {
       message = "There was a problem while adding book. Please try again."
     }

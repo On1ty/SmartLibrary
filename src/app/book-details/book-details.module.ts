@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
 import { BookDetailsPageRoutingModule } from './book-details-routing.module';
+import { NgxQRCodeModule } from '@techiediaries/ngx-qrcode';
 
 import { BookDetailsPage } from './book-details.page';
 
@@ -13,7 +14,8 @@ import { BookDetailsPage } from './book-details.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    BookDetailsPageRoutingModule
+    BookDetailsPageRoutingModule,
+    NgxQRCodeModule
   ],
   declarations: [BookDetailsPage]
 })

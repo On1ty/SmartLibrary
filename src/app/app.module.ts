@@ -15,6 +15,8 @@ import { IonicStorageModule } from '@ionic/storage-angular';
 import { Camera } from '@awesome-cordova-plugins/camera/ngx';
 import { AndroidPermissions } from '@awesome-cordova-plugins/android-permissions/ngx';
 import { WebView } from '@awesome-cordova-plugins/ionic-webview/ngx';
+import { NgxQRCodeModule } from '@techiediaries/ngx-qrcode';
+import { Base64ToGallery } from '@ionic-native/base64-to-gallery/ngx';
 
 @NgModule({
   declarations: [AppComponent],
@@ -26,6 +28,7 @@ import { WebView } from '@awesome-cordova-plugins/ionic-webview/ngx';
     ReactiveFormsModule,
     FormsModule,
     IonicStorageModule.forRoot(),
+    NgxQRCodeModule
   ],
   providers: [
     {
@@ -35,9 +38,10 @@ import { WebView } from '@awesome-cordova-plugins/ionic-webview/ngx';
     BarcodeScanner,
     Camera,
     AndroidPermissions,
-    WebView
+    WebView,
+    Base64ToGallery
   ],
   bootstrap: [AppComponent],
-  
+
 })
 export class AppModule { }

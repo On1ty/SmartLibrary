@@ -13,7 +13,7 @@ import { BooksPage } from './books.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    BooksPageRoutingModule
+    BooksPageRoutingModule,
   ],
   declarations: [BooksPage]
 })

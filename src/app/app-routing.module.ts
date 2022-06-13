@@ -27,12 +27,10 @@ const routes: Routes = [
     path: 'add-book',
     loadChildren: () => import('./add-book/add-book.module').then( m => m.AddBookPageModule)
   },
-
-  // {
-  //   path: 'folder/:id',
-  //   loadChildren: () => import('./folder/folder.module').then( m => m.FolderPageModule)
-  // },
-  // {
+  {
+    path: 'book-details/:id',
+    loadChildren: () => import('./book-details/book-details.module').then( m => m.BookDetailsPageModule)
+  },
 ];
 
 @NgModule({

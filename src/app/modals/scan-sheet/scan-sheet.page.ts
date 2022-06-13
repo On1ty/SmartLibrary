@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/dot-notation */
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { AlertController, LoadingController, ModalController } from '@ionic/angular';
 import { BarcodeScanner } from '@awesome-cordova-plugins/barcode-scanner/ngx';
@@ -6,7 +7,6 @@ import { Camera, CameraOptions } from '@awesome-cordova-plugins/camera/ngx';
 import { AndroidPermissions } from '@awesome-cordova-plugins/android-permissions/ngx';
 import { WebView } from '@awesome-cordova-plugins/ionic-webview/ngx';
 import { Router } from '@angular/router';
-import { BookDetailsPage } from '../book-details/book-details.page';
 
 @Component({
   selector: 'app-scan-sheet',
@@ -50,28 +50,18 @@ export class ScanSheetPage implements OnInit {
 
   scanQr() {
     this.barcodeScanner.scan({
-      formats: "QR_CODE",
-      prompt: "Scan book QR code",
+      formats: 'QR_CODE',
+      prompt: 'Scan book QR code',
       resultDisplayDuration: 0,
       showTorchButton: true
     }).then(async barcodeData => {
 
-      const modal = await this.modalController.create({
-        component: BookDetailsPage,
-        swipeToClose: false,
-        presentingElement: await this.modalController.getTop(),
-        showBackdrop: true,
-        componentProps: {
-          id: barcodeData.text
-        }
-      });
-
-      await modal.present();
+      //code d2 later na lang
 
     }).catch(async err => {
 
-      let alert = await this.alertCtrl.create({
-        subHeader: "Error",
+      const alert = await this.alertCtrl.create({
+        subHeader: 'Error',
         message: err,
         backdropDismiss: false,
         buttons: [{
@@ -80,7 +70,7 @@ export class ScanSheetPage implements OnInit {
             alert.dismiss();
           }
         }]
-      })
+      });
 
       alert.present();
     });
@@ -107,8 +97,8 @@ export class ScanSheetPage implements OnInit {
 
     try {
 
-      if (this.image) this.image.remove();
-      if (this.canvas) this.canvas.remove();
+      if (this.image) {this.image.remove();}
+      if (this.canvas) {this.canvas.remove();}
 
       this.image = await faceapi.bufferToImage(event.target.files[0]);
       this.canvas = faceapi.createCanvasFromMedia(this.image);
@@ -127,7 +117,7 @@ export class ScanSheetPage implements OnInit {
       );
 
       let known = true;
-      let label = "";
+      let label = '';
 
       if (results.length > 0) {
 
@@ -137,12 +127,12 @@ export class ScanSheetPage implements OnInit {
           if (res['_label'] === 'unknown') {
             known = false;
           }
-        })
+        });
 
         if (known) {
 
-          let alert = await this.alertCtrl.create({
-            subHeader: "",
+          const alert = await this.alertCtrl.create({
+            subHeader: '',
             message: label,
             backdropDismiss: false,
             buttons: [{
@@ -151,16 +141,16 @@ export class ScanSheetPage implements OnInit {
                 alert.dismiss();
               }
             }]
-          })
+          });
 
           alert.present();
           return true;
 
         } else {
 
-          let alert = await this.alertCtrl.create({
-            subHeader: "",
-            message: "No person found on database.",
+          const alert = await this.alertCtrl.create({
+            subHeader: '',
+            message: 'No person found on database.',
             backdropDismiss: false,
             buttons: [{
               text: 'Ok',
@@ -168,7 +158,7 @@ export class ScanSheetPage implements OnInit {
                 alert.dismiss();
               }
             }]
-          })
+          });
 
           alert.present();
           return true;
@@ -176,8 +166,8 @@ export class ScanSheetPage implements OnInit {
       }
 
     } catch (error) {
-      let alert = await this.alertCtrl.create({
-        subHeader: "Error",
+      const alert = await this.alertCtrl.create({
+        subHeader: 'Error',
         message: error,
         backdropDismiss: false,
         buttons: [{
@@ -186,7 +176,7 @@ export class ScanSheetPage implements OnInit {
             alert.dismiss();
           }
         }]
-      })
+      });
 
       alert.present();
     } finally {
@@ -196,7 +186,7 @@ export class ScanSheetPage implements OnInit {
 
   loadLabeledImages() {
 
-    const labels = ["Ying Pallo Andoy", "Hany Liza Azures"];
+    const labels = ['Ying Pallo Andoy', 'Hany Liza Azures'];
 
     return Promise.all(
       labels.map(async (label) => {

@@ -1,14 +1,15 @@
 import { DataService } from './../services/data.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Storage } from "@ionic/storage-angular";
-import { AlertController } from '@ionic/angular';
+import { Storage } from '@ionic/storage-angular';
+import { AlertController, LoadingController, ModalController } from '@ionic/angular';
 
 @Component({
   selector: 'app-books',
   templateUrl: './books.page.html',
   styleUrls: ['./books.page.scss'],
 })
+
 export class BooksPage implements OnInit {
 
   books: any = [];
@@ -18,6 +19,8 @@ export class BooksPage implements OnInit {
     private router: Router,
     private storage: Storage,
     private alertController: AlertController,
+    private loadingController: LoadingController,
+    private modalController: ModalController
   ) { }
 
   ngOnInit() {
@@ -27,35 +30,43 @@ export class BooksPage implements OnInit {
     });
   }
 
-  async deleteBook($event) {
-    let confirm = await this.alertController.create({
-      subHeader: "Delete Confirmation",
-      message: "Are you sure you want to delete the book?",
+  async deleteBook(id) {
+    const confirm = await this.alertController.create({
+      subHeader: 'Delete Confirmation',
+      message: 'Are you sure you want to delete the book?',
       backdropDismiss: false,
       buttons: [
-        { text: "Cancel" },
+        { text: 'Cancel' },
         {
-          text: "Ok",
+          text: 'Ok',
           handler: async () => {
 
-            const id = $event.target.getAttribute('id');
+            const loading = await this.loadingController.create({
+              spinner: 'dots',
+              message: 'Deleting book',
+            });
+
+            loading.present();
+
             const result = this.dataService.deleteBook(id);
 
-            let message = "";
+            let message = '';
+
+            loading.dismiss();
 
             if (result) {
-              message = "Successfully deleted book"
-              this.router.navigate(['books']);
+              message = 'Successfully deleted book';
+              this.router.navigate(['tabs/books']);
             } else {
-              message = "There was a problem while deleting book. Please try again."
+              message = 'There was a problem while deleting book. Please try again.';
             }
 
-            let alert = await this.alertController.create({
-              subHeader: "Message",
-              message: message,
+            const alert = await this.alertController.create({
+              subHeader: 'Message',
+              message,
               backdropDismiss: false,
               buttons: [{
-                text: "Ok",
+                text: 'Ok',
                 handler: () => {
                   alert.dismiss();
                 }
@@ -75,6 +86,7 @@ export class BooksPage implements OnInit {
     requestAnimationFrame(() => {
       items.forEach((item) => {
         const shouldShow = item.textContent.toLowerCase().indexOf(query) > -1;
+        // eslint-disable-next-line @typescript-eslint/dot-notation
         item['style'].display = shouldShow ? 'block' : 'none';
       });
     });
@@ -82,5 +94,9 @@ export class BooksPage implements OnInit {
 
   navToAddBook() {
     this.router.navigate(['add-book']);
+  }
+
+  async bookDetails(id) {
+    this.router.navigate(['book-details/' + id]);
   }
 }
