@@ -48,13 +48,12 @@ export class BookDetailsPage implements OnInit {
         mediaScanner: true
       })
       .then(async res => {
-        alert('success');
         let toast = await this.toastCtrl.create({
-          header: 'QR Code save in your gallery'
+          message: 'QR Code save in your gallery',
+          duration: 2000,
         });
         toast.present();
       }, err => {
-        alert(err);
         console.log(err);
       });
   }
