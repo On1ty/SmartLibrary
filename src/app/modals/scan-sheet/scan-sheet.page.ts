@@ -56,7 +56,11 @@ export class ScanSheetPage implements OnInit {
       showTorchButton: true
     }).then(async barcodeData => {
 
-      //code d2 later na lang
+      const id = barcodeData.text;
+
+      if (id != "") {
+        this.router.navigate(['book-details/' + id]);
+      }
 
     }).catch(async err => {
 

@@ -30,7 +30,15 @@ const routes: Routes = [
   {
     path: 'book-details/:id',
     loadChildren: () => import('./book-details/book-details.module').then( m => m.BookDetailsPageModule)
+  },  {
+    path: 'register',
+    loadChildren: () => import('./register/register.module').then( m => m.RegisterPageModule)
   },
+  {
+    path: 'reports',
+    loadChildren: () => import('./reports/reports.module').then( m => m.ReportsPageModule)
+  },
+
 ];
 
 @NgModule({

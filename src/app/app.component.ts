@@ -9,16 +9,18 @@ import { Storage } from "@ionic/storage-angular";
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent {
-  public appPages = [
-    { title: 'Reports', url: '/folder/Outbox', icon: 'receipt-outline' },
-  ];
 
   constructor(
     private router: Router,
     private alertController: AlertController,
     private storage: Storage,
     private loadingController: LoadingController,
-  ) { }
+  ) {
+    this.storage.create();
+  }
+
+  ngOnInit() {
+  }
 
   async logout() {
     let alert = await this.alertController.create({
