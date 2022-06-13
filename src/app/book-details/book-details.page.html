@@ -9,7 +9,7 @@
 
 <ion-content class="ion-padding">
   <div class="book-details">
-    <ion-card *ngIf="id" class="ion-text-center">
+    <ion-card *ngIf="elementType" class="ion-text-center">
       <ngx-qrcode [value]="id" [elementType]="elementType" [width]="300"  [errorCorrectionLevel]="errorCorrectionLevel">
       </ngx-qrcode>
       <ion-card-content>

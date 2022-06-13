@@ -7,6 +7,7 @@ import { Camera, CameraOptions } from '@awesome-cordova-plugins/camera/ngx';
 import { AndroidPermissions } from '@awesome-cordova-plugins/android-permissions/ngx';
 import { WebView } from '@awesome-cordova-plugins/ionic-webview/ngx';
 import { Router } from '@angular/router';
+import { DataService } from '../../services/data.service';
 
 @Component({
   selector: 'app-scan-sheet',
@@ -32,7 +33,8 @@ export class ScanSheetPage implements OnInit {
     private webview: WebView,
     private router: Router,
     private loadingController: LoadingController,
-    private modalController: ModalController
+    private modalController: ModalController,
+    private dataService: DataService,
   ) { }
 
   async ngOnInit() {
@@ -59,8 +61,31 @@ export class ScanSheetPage implements OnInit {
       const id = barcodeData.text;
 
       if (id != "") {
-        this.router.navigate(['book-details/' + id]);
+
+        this.dataService.getBooksById(id).
+          subscribe(async book => {
+            if (book === undefined) {
+              const alert = await this.alertCtrl.create({
+                subHeader: 'Book QR Scan',
+                message: "Book QR Code not found in the database",
+                backdropDismiss: false,
+                buttons: [{
+                  text: 'Ok',
+                  handler: () => {
+                    alert.dismiss();
+                  }
+                }]
+              });
+
+              alert.present();
+              return;
+            }
+
+            this.router.navigate(['book-details/' + id]);
+          });
       }
+
+      this.dismiss();
 
     }).catch(async err => {
 
@@ -101,8 +126,8 @@ export class ScanSheetPage implements OnInit {
 
     try {
 
-      if (this.image) {this.image.remove();}
-      if (this.canvas) {this.canvas.remove();}
+      if (this.image) { this.image.remove(); }
+      if (this.canvas) { this.canvas.remove(); }
 
       this.image = await faceapi.bufferToImage(event.target.files[0]);
       this.canvas = faceapi.createCanvasFromMedia(this.image);

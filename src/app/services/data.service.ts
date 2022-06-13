@@ -31,10 +31,35 @@ export class DataService {
     return collectionData(usersRef);
   }
 
+  getBorrowers() {
+    const borrowersRef = collection(this.firestore, 'borrowers');
+    return collectionData(borrowersRef);
+  }
+
   addBook(book) {
     try {
       const booksRef = collection(this.firestore, 'books')
       addDoc(booksRef, book);
+      return true
+    } catch (error) {
+      return false
+    }
+  }
+
+  addBorrower(borrower) {
+    try {
+      const borrowerRef = collection(this.firestore, 'borrowers')
+      addDoc(borrowerRef, borrower);
+      return true
+    } catch (error) {
+      return false
+    }
+  }
+
+  addLibrarian(librarian) {
+    try {
+      const librarianRef = collection(this.firestore, 'users')
+      addDoc(librarianRef, librarian);
       return true
     } catch (error) {
       return false

@@ -3,27 +3,26 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>Reports</ion-title>
+    <ion-title>Borrowers</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <ion-searchbar mode="ios" animated (ionInput)="searchBorrowers($event)" showCancelButton="focus"></ion-searchbar>
-  <div *ngIf="!reports.length">
+  <div *ngIf="!borrowers.length">
     <div *ngFor="let i of [].constructor(10)" class="ion-padding-start ion-padding-end" style="padding-bottom: 10px">
       <ion-skeleton-text animated style="width: 100%; height: 7vh !important"></ion-skeleton-text>
     </div>
   </div>
-  <ion-list id="reportsList" lines="none" class="ion-margin">
-    <ion-item-sliding *ngFor="let report of reports">
+  <ion-list id="borrowersList" lines="none" class="ion-margin">
+    <ion-item-sliding *ngFor="let borrower of borrowers">
       <div>
         <ion-item (click)="borrowerDetails(borrower.id)">
           <ion-avatar slot="start">
             <img src="{{ borrower.img_64 }}" />
           </ion-avatar>
           <ion-label>
-            <h2>{{ borrower.last }}</h2>
-            <h3>{{ borrower.first }} {{ borrower.middle }}</h3>
+            <h2>{{ borrower.last }} {{ borrower.first }} {{ borrower.middle }}</h2>
           </ion-label>
         </ion-item>
         <ion-item-options side="end">
@@ -32,4 +31,9 @@
       </div>
     </ion-item-sliding>
   </ion-list>
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed" (click)="navToReg();">
+    <ion-fab-button>
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>

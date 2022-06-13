@@ -12,9 +12,8 @@ import { DataService } from './../services/data.service';
 })
 export class BookDetailsPage implements OnInit {
 
-  scannedCode = null;
-  elementType = NgxQrcodeElementTypes.CANVAS;
-  errorCorrectionLevel = NgxQrcodeErrorCorrectionLevels.LOW
+  elementType: any;
+  errorCorrectionLevel: any;
   id: any;
   book: any = [];
 
@@ -26,10 +25,16 @@ export class BookDetailsPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.id = this.activatedRoute.snapshot.paramMap.get('id');
-    this.dataService.getBooksById(this.id).subscribe(res => {
-      this.book = res;
-    })
+    const id = this.activatedRoute.snapshot.paramMap.get('id');
+    this.dataService.getBooksById(id)
+      .subscribe(res => {
+        if (res !== undefined) {
+          this.id = id;
+          this.elementType = NgxQrcodeElementTypes.CANVAS;
+          this.errorCorrectionLevel = NgxQrcodeElementTypes.CANVAS;
+          this.book = res;
+        }
+      });
   }
 
   downloadQR() {
@@ -43,11 +48,13 @@ export class BookDetailsPage implements OnInit {
         mediaScanner: true
       })
       .then(async res => {
+        alert('success');
         let toast = await this.toastCtrl.create({
           header: 'QR Code save in your gallery'
         });
         toast.present();
       }, err => {
+        alert(err);
         console.log(err);
       });
   }

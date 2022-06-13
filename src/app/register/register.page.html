@@ -8,7 +8,7 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  <ion-segment value="borrower" mode="ios">
+  <ion-segment value="borrower" mode="ios" (ionChange)="segmentChange($event)">
     <ion-segment-button value="borrower">
       <ion-label>Borrower</ion-label>
     </ion-segment-button>
@@ -16,4 +16,54 @@
       <ion-label>Librarian</ion-label>
     </ion-segment-button>
   </ion-segment>
+  <form action="" [formGroup]="regBorrowerForm" (ngSubmit)="regBorrower()" *ngIf="selectedSegment == 'borrower'">
+    <div class="grid">
+      <div class="grid-child">
+        <ion-item fill="outline">
+          <ion-label position="floating">First Name</ion-label>
+          <ion-input placeholder="Juan" formControlName="first"></ion-input>
+        </ion-item>
+        <ion-item fill="outline">
+          <ion-label position="floating">Middle Name</ion-label>
+          <ion-input placeholder="Dela" formControlName="middle"></ion-input>
+        </ion-item>
+        <ion-item fill="outline">
+          <ion-label position="floating">Last Name</ion-label>
+          <ion-input placeholder="Cruz" formControlName="last"></ion-input>
+        </ion-item>
+      </div>
+      <div class="grid-child">
+        <ion-button expand="block" class="submit-btn" type="submit">Submit</ion-button>
+      </div>
+    </div>
+  </form>
+  <form action="" [formGroup]="regLibrarianForm" (ngSubmit)="regLibrarian()" *ngIf="selectedSegment == 'librarian'">
+    <div class="grid">
+      <div class="grid-child">
+        <ion-item fill="outline">
+          <ion-label position="floating">First Name</ion-label>
+          <ion-input placeholder="Juan" formControlName="first"></ion-input>
+        </ion-item>
+        <ion-item fill="outline">
+          <ion-label position="floating">Middle Name</ion-label>
+          <ion-input placeholder="Dela" formControlName="middle"></ion-input>
+        </ion-item>
+        <ion-item fill="outline">
+          <ion-label position="floating">Last Name</ion-label>
+          <ion-input placeholder="Cruz" formControlName="last"></ion-input>
+        </ion-item>
+        <ion-item fill="outline">
+          <ion-label position="floating">Username</ion-label>
+          <ion-input placeholder="sampleuser123" formControlName="username"></ion-input>
+        </ion-item>
+        <ion-item fill="outline">
+          <ion-label position="floating">Password</ion-label>
+          <ion-input placeholder="Must contain 8 characters" type="password" formControlName="password"></ion-input>
+        </ion-item>
+      </div>
+      <div class="grid-child">
+        <ion-button expand="block" class="submit-btn" type="submit">Submit</ion-button>
+      </div>
+    </div>
+  </form>
 </ion-content>

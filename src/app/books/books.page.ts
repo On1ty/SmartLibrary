@@ -86,7 +86,6 @@ export class BooksPage implements OnInit {
     requestAnimationFrame(() => {
       items.forEach((item) => {
         const shouldShow = item.textContent.toLowerCase().indexOf(query) > -1;
-        // eslint-disable-next-line @typescript-eslint/dot-notation
         item['style'].display = shouldShow ? 'block' : 'none';
       });
     });

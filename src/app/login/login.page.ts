@@ -63,25 +63,25 @@ export class LoginPage implements OnInit {
       this.dataService.getUsers().subscribe(async res => {
         const result = res.filter((user) => user.user === formData.user && user.password === formData.password);
 
-        if (result.length > 0) {
-          this.storage.set('user', result[0]);
-          console.log(result);
-          this.router.navigate(['home']);
+        if (!(result.length > 0)) {
+          const alert = await this.alertController.create({
+            subHeader: 'Authetication Failed',
+            message: 'Wrong credentials. Please try again.',
+            backdropDismiss: false,
+            buttons: [{
+              text: 'Ok',
+              handler: () => {
+                alert.dismiss();
+              }
+            }],
+          });
+          alert.present();
           return;
         }
 
-        const alert = await this.alertController.create({
-          subHeader: 'Authetication Failed',
-          message: 'Wrong credentials. Please try again.',
-          backdropDismiss: false,
-          buttons: [{
-            text: 'Ok',
-            handler: () => {
-              alert.dismiss();
-            }
-          }],
-        });
-        alert.present();
+        this.storage.set('user', result[0]);
+        console.log(result);
+        this.router.navigate(['home']);
       });
     });
 

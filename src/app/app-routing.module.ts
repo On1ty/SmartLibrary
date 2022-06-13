@@ -19,10 +19,6 @@ const routes: Routes = [
     path: 'home',
     redirectTo: 'tabs/home',
   },
-  // {
-  //   path: 'books',
-  //   loadChildren: () => import('./books/books.module').then( m => m.BooksPageModule)
-  // },
   {
     path: 'add-book',
     loadChildren: () => import('./add-book/add-book.module').then( m => m.AddBookPageModule)
@@ -30,15 +26,11 @@ const routes: Routes = [
   {
     path: 'book-details/:id',
     loadChildren: () => import('./book-details/book-details.module').then( m => m.BookDetailsPageModule)
-  },  {
+  },
+  {
     path: 'register',
     loadChildren: () => import('./register/register.module').then( m => m.RegisterPageModule)
   },
-  {
-    path: 'reports',
-    loadChildren: () => import('./reports/reports.module').then( m => m.ReportsPageModule)
-  },
-
 ];
 
 @NgModule({

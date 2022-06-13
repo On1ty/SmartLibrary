@@ -9,22 +9,22 @@
 
 <ion-content class="ion-padding">
   <ion-list>
-    <ion-list-header>Dashboard</ion-list-header>
+    <ion-list-header>Realtime Dashboard</ion-list-header>
     <ion-item>
       <ion-label>Total Books</ion-label>
-      <ion-note slot="end" color="primary">99</ion-note>
+      <ion-note slot="end" color="primary">{{ total_books }}</ion-note>
     </ion-item>
     <ion-item>
       <ion-label>Borrowed Books</ion-label>
-      <ion-note slot="end" color="secondary">99</ion-note>
+      <ion-note slot="end" color="secondary">{{ total_borrowed }}</ion-note>
     </ion-item>
     <ion-item>
       <ion-label>Total Borrower</ion-label>
-      <ion-note slot="end" color="tertiary">99</ion-note>
+      <ion-note slot="end" color="tertiary">{{ total_borrowers }}</ion-note>
     </ion-item>
     <ion-item>
       <ion-label>Total Lost Book</ion-label>
-      <ion-note slot="end" color="success">99</ion-note>
+      <ion-note slot="end" color="danger">{{ total_lost }}</ion-note>
     </ion-item>
   </ion-list>
 </ion-content>
