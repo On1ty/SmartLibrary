@@ -1,32 +1,53 @@
 form {
-    height: 90%;
-    margin-top: 1rem;
+  height: 90%;
+  margin-top: 1rem;
 }
 
 .grid {
-    display: grid;
-    gap: 1rem;
-    grid-template-areas:
-        "one"
-        "two";
-    height: 100%;
-    grid-template-rows: 2fr 1fr;
+  display: grid;
+  gap: 1rem;
+  grid-template-areas:
+    "one"
+    "two";
+  height: 100%;
+  grid-template-rows: 1.7fr 1fr;
 
-    .grid-child:nth-child(1) {
-        grid-area: one;
-    }
+  .grid-child:nth-child(1) {
+    grid-area: one;
+  }
 
-    .grid-child:nth-child(2) {
-        grid-area: two;
-        align-self: flex-end;
-    }
+  .grid-child:nth-child(2) {
+    grid-area: two;
+    align-self: flex-end;
+  }
 }
 
 ion-item {
-    margin-top: .8rem;
-    margin-bottom: .8rem;
+  margin-top: 0.8rem;
+  margin-bottom: 0.8rem;
 }
 
 .submit-btn {
-    height: 2.2rem;
+  height: 2.2rem;
+}
+
+.upload-pic {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+
+  div {
+    text-align: center;
+
+    ion-button {
+      --border-radius: 50%;
+      width: 70px;
+      height: 70px;
+
+      img {
+        max-width: unset;
+        width: 100px;
+      }
+    }
+  }
 }

@@ -28,7 +28,7 @@ import { Base64ToGallery } from '@ionic-native/base64-to-gallery/ngx';
     ReactiveFormsModule,
     FormsModule,
     IonicStorageModule.forRoot(),
-    NgxQRCodeModule
+    NgxQRCodeModule,
   ],
   providers: [
     {
@@ -39,7 +39,7 @@ import { Base64ToGallery } from '@ionic-native/base64-to-gallery/ngx';
     Camera,
     AndroidPermissions,
     WebView,
-    Base64ToGallery
+    Base64ToGallery,
   ],
   bootstrap: [AppComponent],
 

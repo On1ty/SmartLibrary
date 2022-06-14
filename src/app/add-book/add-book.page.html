@@ -11,6 +11,15 @@
   <form action="" [formGroup]="addBookForm" (ngSubmit)="addBook()">
     <div class="grid">
       <div class="grid-child">
+        <div class="upload-pic">
+          <div>
+            <ion-button class="btn-round" color="secondary" (click)="openGallery()">
+              <ion-icon name="cloud-upload-outline" size="large" *ngIf="!src"></ion-icon>
+              <img [src]="src" alt="" *ngIf="src">
+            </ion-button>
+            <p>Upload Picture</p>
+          </div>
+        </div>
         <ion-item fill="outline">
           <ion-label position="floating">Title</ion-label>
           <ion-input placeholder="Book Title" formControlName="title"></ion-input>
@@ -34,6 +43,7 @@
           <ion-label position="floating">Shelf Number</ion-label>
           <ion-input placeholder="Book shelf number" formControlName="shelf_no"></ion-input>
         </ion-item>
+        <input type="file" (change)="loadImg($event)" formControlName="file_pic" accept="image/*" #file hidden />
       </div>
       <div class="grid-child">
         <ion-button expand="block" class="submit-btn" type="submit">Submit</ion-button>

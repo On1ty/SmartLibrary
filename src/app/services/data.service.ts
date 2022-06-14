@@ -17,59 +17,54 @@ export class DataService {
   }
 
   getBooks() {
-    const booksRef = collection(this.firestore, 'books');
-    return collectionData(booksRef, { idField: 'id' });
+    const ref = collection(this.firestore, 'books');
+    return collectionData(ref, { idField: 'id' });
   }
 
   getBooksById(id) {
-    const booksDocRef = doc(this.firestore, `books/${id}`);
-    return docData(booksDocRef, { idField: 'id' });
+    const ref = doc(this.firestore, `books/${id}`);
+    return docData(ref, { idField: 'id' });
   }
 
   getUsers() {
-    const usersRef = collection(this.firestore, 'users');
-    return collectionData(usersRef);
+    const ref = collection(this.firestore, 'users');
+    return collectionData(ref);
   }
 
   getBorrowers() {
-    const borrowersRef = collection(this.firestore, 'borrowers');
-    return collectionData(borrowersRef);
+    const ref = collection(this.firestore, 'borrowers');
+    return collectionData(ref, { idField: 'id' });
   }
 
   addBook(book) {
-    try {
-      const booksRef = collection(this.firestore, 'books')
-      addDoc(booksRef, book);
-      return true
-    } catch (error) {
-      return false
-    }
+    const ref = collection(this.firestore, 'books')
+    return addDoc(ref, book);
   }
 
   addBorrower(borrower) {
-    try {
-      const borrowerRef = collection(this.firestore, 'borrowers')
-      addDoc(borrowerRef, borrower);
-      return true
-    } catch (error) {
-      return false
-    }
+    const ref = collection(this.firestore, 'borrowers')
+    return addDoc(ref, borrower);
   }
 
   addLibrarian(librarian) {
-    try {
-      const librarianRef = collection(this.firestore, 'users')
-      addDoc(librarianRef, librarian);
-      return true
-    } catch (error) {
-      return false
-    }
+    const ref = collection(this.firestore, 'users')
+    return addDoc(ref, librarian);
   }
 
   deleteBook(id) {
     try {
-      const booksDocRef = doc(this.firestore, `books/${id}`)
-      deleteDoc(booksDocRef);
+      const ref = doc(this.firestore, `books/${id}`)
+      deleteDoc(ref);
+      return true
+    } catch (error) {
+      return false
+    }
+  }
+
+  deleteBorrower(id) {
+    try {
+      const ref = doc(this.firestore, `borrowers/${id}`)
+      deleteDoc(ref);
       return true
     } catch (error) {
       return false

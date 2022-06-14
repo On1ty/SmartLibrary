@@ -17,10 +17,8 @@ export class BooksPage implements OnInit {
   constructor(
     private dataService: DataService,
     private router: Router,
-    private storage: Storage,
     private alertController: AlertController,
     private loadingController: LoadingController,
-    private modalController: ModalController
   ) { }
 
   ngOnInit() {
@@ -56,7 +54,6 @@ export class BooksPage implements OnInit {
 
             if (result) {
               message = 'Successfully deleted book';
-              this.router.navigate(['tabs/books']);
             } else {
               message = 'There was a problem while deleting book. Please try again.';
             }

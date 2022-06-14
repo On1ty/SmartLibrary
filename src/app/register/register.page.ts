@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { AlertController } from '@ionic/angular';
+import { AlertController, LoadingController } from '@ionic/angular';
 import { DataService } from '../services/data.service';
 import { Storage } from "@ionic/storage-angular";
 
@@ -13,13 +13,14 @@ export class RegisterPage implements OnInit {
 
   regBorrowerForm = new FormGroup({
     first: new FormControl('', Validators.required),
-    middle: new FormControl('', Validators.required),
+    middle: new FormControl(''),
     last: new FormControl('', Validators.required),
+    file_pic: new FormControl('', Validators.required),
   });
 
   regLibrarianForm = new FormGroup({
     first: new FormControl('', Validators.required),
-    middle: new FormControl('', Validators.required),
+    middle: new FormControl(''),
     last: new FormControl('', Validators.required),
     username: new FormControl('', Validators.required),
     password: new FormControl('', [Validators.required, Validators.minLength(8)]),
@@ -27,11 +28,15 @@ export class RegisterPage implements OnInit {
 
   selectedSegment: string = 'borrower';
   user: any;
+  src: any;
+
+  @ViewChild('file', { static: false }) file;
 
   constructor(
     private alertController: AlertController,
     private dataService: DataService,
     private storage: Storage,
+    private loadingController: LoadingController,
   ) {
     this.storage.create();
   }
@@ -41,11 +46,29 @@ export class RegisterPage implements OnInit {
   }
 
   ionViewWillEnter() {
-    
+
   }
 
   segmentChange(event) {
     this.selectedSegment = event.target.value;
+  }
+
+  openGallery() {
+    this.file.nativeElement.click();
+  }
+
+  loadImg(event) {
+    const files = event.target.files;
+
+    if (files.length == 0) {
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.readAsDataURL(files[0]);
+    reader.onload = () => {
+      this.src = reader.result;
+    }
   }
 
   async regBorrower() {
@@ -65,39 +88,57 @@ export class RegisterPage implements OnInit {
       return;
     }
 
+    const loading = await this.loadingController.create({
+      spinner: 'dots',
+      message: 'Adding borrower',
+    });
+
+    loading.present();
+
     const formData = this.regBorrowerForm.value;
     const borrowerObj = [formData].map(obj => ({
       first: obj.first,
       middle: obj.middle,
       last: obj.last,
+      img_64: this.src,
       reg_by: this.user.name,
       reg_date: this.dataService.getCurrentDate(),
     }));
 
     console.log(borrowerObj[0]);
-    const result = this.dataService.addBorrower(borrowerObj[0]);
-    let message = "";
+    this.dataService.addBorrower(borrowerObj[0])
+      .then(async () => {
+        let alert = await this.alertController.create({
+          subHeader: "Message",
+          message: "Successfully added borrower",
+          backdropDismiss: false,
+          buttons: [{
+            text: "Ok",
+            handler: () => {
+              alert.dismiss();
+            }
+          }],
+        });
+        alert.present();
+        loading.dismiss();
 
-    if (result) {
-      message = "Successfully added borrower"
-      this.regBorrowerForm.reset();
-      // this.router.navigate(['tabs/books']);
-    } else {
-      message = "There was a problem while adding borrower. Please try again."
-    }
-
-    let alert = await this.alertController.create({
-      subHeader: "Message",
-      message: message,
-      backdropDismiss: false,
-      buttons: [{
-        text: "Ok",
-        handler: () => {
-          alert.dismiss();
-        }
-      }],
-    });
-    alert.present();
+        this.regBorrowerForm.reset();
+        this.src = null;
+      }).catch(async (error) => {
+        let alert = await this.alertController.create({
+          subHeader: "Message",
+          message: error,
+          backdropDismiss: false,
+          buttons: [{
+            text: "Ok",
+            handler: () => {
+              alert.dismiss();
+            }
+          }],
+        });
+        alert.present();
+        loading.dismiss();
+      });
   }
 
   async regLibrarian() {
@@ -117,6 +158,13 @@ export class RegisterPage implements OnInit {
       return;
     }
 
+    const loading = await this.loadingController.create({
+      spinner: 'dots',
+      message: 'Adding librarian',
+    });
+
+    loading.present();
+
     const formData = this.regLibrarianForm.value;
     const librarianObj = [formData].map(obj => ({
       name: `${obj.first} ${obj.middle} ${obj.last}`,
@@ -125,29 +173,39 @@ export class RegisterPage implements OnInit {
     }));
 
     console.log(librarianObj[0]);
-    const resultLibrarian = this.dataService.addLibrarian(librarianObj[0]);
+    this.dataService.addLibrarian(librarianObj[0])
+      .then(async () => {
+        let alert = await this.alertController.create({
+          subHeader: "Message",
+          message: 'Successfully added librarian',
+          backdropDismiss: false,
+          buttons: [{
+            text: "Ok",
+            handler: () => {
+              alert.dismiss();
+            }
+          }],
+        });
 
-    let message = "";
+        loading.dismiss();
+        alert.present();
+        this.regLibrarianForm.reset();
+      })
+      .catch(async (error) => {
+        let alert = await this.alertController.create({
+          subHeader: "Message",
+          message: error,
+          backdropDismiss: false,
+          buttons: [{
+            text: "Ok",
+            handler: () => {
+              alert.dismiss();
+            }
+          }],
+        });
 
-    if (resultLibrarian) {
-      message = "Successfully added librarian"
-      this.regLibrarianForm.reset();
-      // this.router.navigate(['tabs/books']);
-    } else {
-      message = "There was a problem while adding librarian. Please try again."
-    }
-
-    let alert = await this.alertController.create({
-      subHeader: "Message",
-      message: message,
-      backdropDismiss: false,
-      buttons: [{
-        text: "Ok",
-        handler: () => {
-          alert.dismiss();
-        }
-      }],
-    });
-    alert.present();
+        loading.dismiss();
+        alert.present();
+      });
   }
 }

@@ -33,3 +33,25 @@ ion-item {
 .submit-btn {
     height: 2.2rem;
 }
+
+
+.upload-pic {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+
+    div {
+      text-align: center;
+
+      ion-button {
+        --border-radius: 50%;
+        width: 70px;
+        height: 70px;
+
+        img {
+          max-width: unset;
+          width: 100px;
+        }
+      }
+    }
+  }

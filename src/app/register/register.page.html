@@ -19,18 +19,28 @@
   <form action="" [formGroup]="regBorrowerForm" (ngSubmit)="regBorrower()" *ngIf="selectedSegment == 'borrower'">
     <div class="grid">
       <div class="grid-child">
+        <div class="upload-pic">
+          <div>
+            <ion-button class="btn-round" color="secondary" (click)="openGallery()">
+              <ion-icon name="cloud-upload-outline" size="large" *ngIf="!src"></ion-icon>
+              <img [src]="src" alt="" *ngIf="src">
+            </ion-button>
+            <p>Upload Picture</p>
+          </div>
+        </div>
         <ion-item fill="outline">
           <ion-label position="floating">First Name</ion-label>
           <ion-input placeholder="Juan" formControlName="first"></ion-input>
         </ion-item>
         <ion-item fill="outline">
           <ion-label position="floating">Middle Name</ion-label>
-          <ion-input placeholder="Dela" formControlName="middle"></ion-input>
+          <ion-input placeholder="Dela (Optional)" formControlName="middle"></ion-input>
         </ion-item>
         <ion-item fill="outline">
           <ion-label position="floating">Last Name</ion-label>
           <ion-input placeholder="Cruz" formControlName="last"></ion-input>
         </ion-item>
+        <input type="file" (change)="loadImg($event)" formControlName="file_pic" accept="image/*" #file hidden />
       </div>
       <div class="grid-child">
         <ion-button expand="block" class="submit-btn" type="submit">Submit</ion-button>
