@@ -9,7 +9,8 @@
     "three";
   height: 100%;
   grid-template-rows: 6fr 7fr 1fr;
-  padding-inline: 5%;
+  padding-right: 5%;
+  padding-left: 5%;
 
   .grid-child:nth-child(1) {
     grid-area: one;
@@ -47,5 +48,6 @@
 .login-button {
     height: 50px;
     --border-radius: 10px;
-    margin-inline: 0;
+    margin-left: 0;
+    margin-right: 0;
 }
