@@ -14,7 +14,7 @@ export class ReportsPage implements OnInit {
   ngOnInit() {
   }
 
-  searchBorrowers(event) {
+  searchReports(event) {
     const query = event.target.value.toLowerCase();
     const items = Array.from(document.querySelector('#reportsList').children);
 
