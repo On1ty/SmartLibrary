@@ -67,6 +67,7 @@
     "cordova-base64-to-gallery": "^4.1.3",
     "cordova-plugin-android-permissions": "^1.1.3",
     "cordova-plugin-camera": "^6.0.0",
+    "cordova-plugin-camera-preview": "^0.12.3",
     "cordova-plugin-device": "^2.0.2",
     "cordova-plugin-file": "^7.0.0",
     "cordova-plugin-ionic-keyboard": "^2.2.0",
@@ -105,7 +106,8 @@
       "cordova-plugin-file": {
         "ANDROIDX_WEBKIT_VERSION": "1.4.0"
       },
-      "cordova-base64-to-gallery": {}
+      "cordova-base64-to-gallery": {},
+      "cordova-plugin-camera-preview": {}
     },
     "platforms": [
       "android"
