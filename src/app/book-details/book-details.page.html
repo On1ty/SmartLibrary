@@ -10,7 +10,7 @@
 <ion-content class="ion-padding">
   <div class="book-details">
     <ion-card *ngIf="elementType" class="ion-text-center">
-      <ngx-qrcode [value]="id" [elementType]="elementType" [width]="300"  [errorCorrectionLevel]="errorCorrectionLevel">
+      <ngx-qrcode [value]="id" [elementType]="elementType" [width]="300" [errorCorrectionLevel]="errorCorrectionLevel">
       </ngx-qrcode>
       <ion-card-content>
         <ion-button class="download-btn" expand="full" color="tertiary" (click)="downloadQR()">
@@ -59,6 +59,9 @@
       <ion-label position="stacked">Borrower</ion-label>
       <ion-input placeholder="Null" [value]="book.borrower" readonly></ion-input>
     </ion-item>
+    <ion-button expand="full" color="danger" (click)="updateStatus()" class="mark-btn">
+      <span *ngIf="book.status != 'lost'">Mark as Lost</span>
+      <span *ngIf="book.status == 'lost'">Unmark as Lost</span>
+    </ion-button>
   </div>
 </ion-content>
-

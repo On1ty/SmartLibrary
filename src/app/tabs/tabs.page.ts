@@ -17,12 +17,12 @@ export class TabsPage implements OnInit {
   }
 
   async scan() {
-    const modal = await this.modalCtrl.create({
-      component: ScanSheetPage,
-      initialBreakpoint: 0.3,
-      handle: false,
-    });
+    // const modal = await this.modalCtrl.create({
+    //   component: ScanSheetPage,
+    //   initialBreakpoint: 0.3,
+    //   handle: false,
+    // });
 
-    await modal.present();
+    // await modal.present();
   }
 }

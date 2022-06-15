@@ -12,7 +12,6 @@ import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BarcodeScanner } from '@awesome-cordova-plugins/barcode-scanner/ngx';
 import { IonicStorageModule } from '@ionic/storage-angular';
-import { Camera } from '@awesome-cordova-plugins/camera/ngx';
 import { AndroidPermissions } from '@awesome-cordova-plugins/android-permissions/ngx';
 import { WebView } from '@awesome-cordova-plugins/ionic-webview/ngx';
 import { NgxQRCodeModule } from '@techiediaries/ngx-qrcode';
@@ -36,7 +35,6 @@ import { Base64ToGallery } from '@ionic-native/base64-to-gallery/ngx';
       useClass: IonicRouteStrategy
     },
     BarcodeScanner,
-    Camera,
     AndroidPermissions,
     WebView,
     Base64ToGallery,

@@ -25,6 +25,10 @@ const routes: Routes = [
         loadChildren: () => import('../borrowers/borrowers.module').then( m => m.BorrowersPageModule)
       },
       {
+        path: 'scan',
+        loadChildren: () => import('../scan/scan.module').then( m => m.ScanPageModule)
+      },
+      {
         path: '',
         redirectTo: '/tabs/home',
         pathMatch: 'full'

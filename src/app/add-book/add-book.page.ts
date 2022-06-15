@@ -27,10 +27,10 @@ export class AddBookPage implements OnInit {
   src: any;
 
   constructor(
-    private alertController: AlertController,
     private storage: Storage,
     private dataService: DataService,
     private router: Router,
+    private alertController: AlertController,
     private loadingController: LoadingController
   ) {
     this.storage.create();

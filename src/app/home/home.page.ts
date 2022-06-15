@@ -13,9 +13,6 @@ export class HomePage implements OnInit {
   total_borrowed: any = 0;
   total_lost: any = 0;
 
-  image = null;
-  cameraActive = false;
-
   constructor(
     private dataService: DataService,
   ) { }
@@ -46,8 +43,5 @@ export class HomePage implements OnInit {
 
       this.total_lost = lost.length;
     });
-  }
-
-  openCamera() {
   }
 }

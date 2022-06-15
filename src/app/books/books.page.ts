@@ -46,30 +46,37 @@ export class BooksPage implements OnInit {
 
             loading.present();
 
-            const result = this.dataService.deleteBook(id);
-
-            let message = '';
-
-            loading.dismiss();
-
-            if (result) {
-              message = 'Successfully deleted book';
-            } else {
-              message = 'There was a problem while deleting book. Please try again.';
-            }
-
-            const alert = await this.alertController.create({
-              subHeader: 'Message',
-              message,
-              backdropDismiss: false,
-              buttons: [{
-                text: 'Ok',
-                handler: () => {
-                  alert.dismiss();
-                }
-              }],
-            });
-            alert.present();
+            this.dataService.deleteBook(id)
+              .then(async () => {
+                const alert = await this.alertController.create({
+                  subHeader: 'Message',
+                  message: 'Successfully deleted book',
+                  backdropDismiss: false,
+                  buttons: [{
+                    text: 'Ok',
+                    handler: () => {
+                      alert.dismiss();
+                    }
+                  }],
+                });
+                alert.present();
+                loading.dismiss();
+              })
+              .catch(async error => {
+                const alert = await this.alertController.create({
+                  subHeader: 'Message',
+                  message: error,
+                  backdropDismiss: false,
+                  buttons: [{
+                    text: 'Ok',
+                    handler: () => {
+                      alert.dismiss();
+                    }
+                  }],
+                });
+                alert.present();
+                loading.dismiss();
+              });
           }
         }],
     });

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { addDoc, collection, collectionData, deleteDoc, doc, docData, Firestore } from '@angular/fire/firestore';
+import { updateDoc } from '@firebase/firestore';
 import * as moment from 'moment';
 
 @Injectable({
@@ -23,6 +24,11 @@ export class DataService {
 
   getBooksById(id) {
     const ref = doc(this.firestore, `books/${id}`);
+    return docData(ref, { idField: 'id' });
+  }
+
+  getBorrowersById(id) {
+    const ref = doc(this.firestore, `borrowers/${id}`);
     return docData(ref, { idField: 'id' });
   }
 
@@ -52,23 +58,18 @@ export class DataService {
   }
 
   deleteBook(id) {
-    try {
-      const ref = doc(this.firestore, `books/${id}`)
-      deleteDoc(ref);
-      return true
-    } catch (error) {
-      return false
-    }
+    const ref = doc(this.firestore, `books/${id}`)
+    return deleteDoc(ref);
+  }
+
+  updateBook(book) {
+    const ref = doc(this.firestore, `books/${book.id}`);
+    return updateDoc(ref, { status: book.status })
   }
 
   deleteBorrower(id) {
-    try {
-      const ref = doc(this.firestore, `borrowers/${id}`)
-      deleteDoc(ref);
-      return true
-    } catch (error) {
-      return false
-    }
+    const ref = doc(this.firestore, `borrowers/${id}`)
+    return deleteDoc(ref);
   }
 
   getCurrentDate() {

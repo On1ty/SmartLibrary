@@ -43,8 +43,7 @@ export class BorrowersPage implements OnInit {
   }
 
   async details(id) {
-    console.log(id);
-    // this.router.navigate(['book-details/' + id]);
+    this.router.navigate(['borrower-details/' + id]);
   }
 
   async delete(id) {
@@ -65,30 +64,37 @@ export class BorrowersPage implements OnInit {
 
             loading.present();
 
-            const result = this.dataService.deleteBorrower(id);
-
-            let message = '';
-
-            loading.dismiss();
-
-            if (result) {
-              message = 'Successfully deleted book';
-            } else {
-              message = 'There was a problem while deleting book. Please try again.';
-            }
-
-            const alert = await this.alertController.create({
-              subHeader: 'Message',
-              message,
-              backdropDismiss: false,
-              buttons: [{
-                text: 'Ok',
-                handler: () => {
-                  alert.dismiss();
-                }
-              }],
-            });
-            alert.present();
+            this.dataService.deleteBorrower(id)
+              .then(async () => {
+                const alert = await this.alertController.create({
+                  subHeader: 'Message',
+                  message: 'Successfully deleted book',
+                  backdropDismiss: false,
+                  buttons: [{
+                    text: 'Ok',
+                    handler: () => {
+                      alert.dismiss();
+                    }
+                  }],
+                });
+                alert.present();
+                loading.dismiss();
+              })
+              .catch(async (error) => {
+                const alert = await this.alertController.create({
+                  subHeader: 'Message',
+                  message: error,
+                  backdropDismiss: false,
+                  buttons: [{
+                    text: 'Ok',
+                    handler: () => {
+                      alert.dismiss();
+                    }
+                  }],
+                });
+                alert.present();
+                loading.dismiss();
+              });
           }
         }],
     });

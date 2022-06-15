@@ -1,0 +1,40 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="tabs/borrowers"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Borrower Details</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div class="book-details">
+    <ion-card class="ion-text-center">
+      <img [src]="borrower.img_64" alt="Borrower Picture">
+    </ion-card>
+    <ion-item class="ion-margin">
+      <ion-label position="stacked">Borrower ID</ion-label>
+      <ion-input placeholder="Null" [value]="borrower.id" readonly></ion-input>
+    </ion-item>
+    <ion-item class="ion-margin">
+      <ion-label position="stacked">First Name</ion-label>
+      <ion-input placeholder="Null" [value]="borrower.first" readonly></ion-input>
+    </ion-item>
+    <ion-item class="ion-margin">
+      <ion-label position="stacked">Middle Name</ion-label>
+      <ion-input placeholder="Null" [value]="borrower.middle" readonly></ion-input>
+    </ion-item>
+    <ion-item class="ion-margin">
+      <ion-label position="stacked">Last Name</ion-label>
+      <ion-input placeholder="Null" [value]="borrower.last" readonly></ion-input>
+    </ion-item>
+    <ion-item class="ion-margin">
+      <ion-label position="stacked">Registered By</ion-label>
+      <ion-textarea placeholder="Null" [value]="borrower.reg_by" readonly></ion-textarea>
+    </ion-item>
+    <ion-item class="ion-margin">
+      <ion-label position="stacked">Registered Date</ion-label>
+      <ion-input placeholder="Null" [value]="borrower.reg_date" readonly></ion-input>
+    </ion-item>
+  </div>
+</ion-content>

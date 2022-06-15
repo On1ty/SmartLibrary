@@ -7,15 +7,15 @@ import * as faceapi from '@vladmandic/face-api/dist/face-api.esm.js';
 import { AndroidPermissions } from '@awesome-cordova-plugins/android-permissions/ngx';
 import { WebView } from '@awesome-cordova-plugins/ionic-webview/ngx';
 import { Router } from '@angular/router';
-import { DataService } from '../../services/data.service';
 import { Camera, CameraResultType, CameraSource, Photo } from '@capacitor/camera';
+import { DataService } from '../services/data.service';
 
 @Component({
-  selector: 'app-scan-sheet',
-  templateUrl: './scan-sheet.page.html',
-  styleUrls: ['./scan-sheet.page.scss'],
+  selector: 'app-scan',
+  templateUrl: './scan.page.html',
+  styleUrls: ['./scan.page.scss'],
 })
-export class ScanSheetPage implements OnInit {
+export class ScanPage implements OnInit {
 
   @ViewChild('fileButton', { static: false }) fileButton;
 
@@ -46,9 +46,6 @@ export class ScanSheetPage implements OnInit {
     this.faceMatcher = new faceapi.FaceMatcher(this.labeledFaceDescriptors, 0.6);
   }
 
-  dismiss() {
-    this.modalCtrl.dismiss();
-  }
 
   scanQr() {
     this.barcodeScanner.scan({
@@ -84,11 +81,7 @@ export class ScanSheetPage implements OnInit {
             this.router.navigate(['book-details/' + id]);
           });
       }
-
-      this.dismiss();
-
     }).catch(async err => {
-
       const alert = await this.alertCtrl.create({
         subHeader: 'Error',
         message: err,
@@ -100,7 +93,6 @@ export class ScanSheetPage implements OnInit {
           }
         }]
       });
-
       alert.present();
     });
   }
@@ -118,24 +110,27 @@ export class ScanSheetPage implements OnInit {
 
     loading.present();
 
-    const capturedPhoto = await Camera.getPhoto({
-      resultType: CameraResultType.Uri, // file-based data; provides best performance
-      source: CameraSource.Camera, // automatically take a new photo with the camera
-      quality: 100, // highest quality (0 to 100)
-    });
+    try {
+      const capturedPhoto = await Camera.getPhoto({
+        resultType: CameraResultType.Uri,
+        source: CameraSource.Camera,
+        quality: 100,
+      });
 
-    // const savedImageFile = await this.savePicture(capturedPhoto);
+      // const savedImageFile = await this.savePicture(capturedPhoto);
 
-    // Add new photo to Photos array
-    // this.photos.unshift(savedImageFile);
+      // Add new photo to Photos array
+      // this.photos.unshift(savedImageFile);
 
-    // // Cache all photo data for future retrieval
-    // Storage.set({
-    //   key: this.PHOTO_STORAGE,
-    //   value: JSON.stringify(this.photos),
-    // });
-
-    loading.dismiss();
+      // // Cache all photo data for future retrieval
+      // Storage.set({
+      //   key: this.PHOTO_STORAGE,
+      //   value: JSON.stringify(this.photos),
+      // });
+    } catch (error) {
+      console.log(error);
+      loading.dismiss();
+    }
   }
 
   async scanFace(event) {
