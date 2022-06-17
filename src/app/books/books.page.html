@@ -14,24 +14,33 @@
       <ion-skeleton-text animated style="width: 100%; height: 7vh !important"></ion-skeleton-text>
     </div>
   </div>
-  <ion-list id="bookList" lines="none" class="ion-margin">
+  <ion-list id="bookList" lines="none">
     <ion-item-sliding *ngFor="let book of books">
       <div>
         <ion-item (click)="bookDetails(book.id)">
-          <ion-avatar slot="start">
-            <img src="{{ book.img_64 }}" />
-          </ion-avatar>
+          <ion-thumbnail slot="start">
+            <img src="{{ book.img_64 }}">
+          </ion-thumbnail>
           <ion-label>
             <h2>{{ book.title }}</h2>
             <h3>{{ book.author }}</h3>
             <p>{{ book.description }}</p>
           </ion-label>
-          <ion-badge class="book-status" color="success" slot="end" *ngIf="book.status == 'available'">{{ book.status }}
-          </ion-badge>
-          <ion-badge class="book-status" color="secondary" slot="end" *ngIf="book.status == 'borrowed'">
-            {{ book.status }}</ion-badge>
-          <ion-badge class="book-status" color="danger" slot="end" *ngIf="book.status == 'lost'">{{ book.status }}
-          </ion-badge>
+          <div class="ion-text-center">
+            <div>
+              <ion-badge class="book-status" color="success" slot="end" *ngIf="book.status == 'available'">
+                {{ book.status }}
+              </ion-badge>
+              <ion-badge class="book-status" color="secondary" slot="end" *ngIf="book.status == 'borrowed'">
+                {{ book.status }}</ion-badge>
+              <ion-badge class="book-status" color="danger" slot="end" *ngIf="book.status == 'lost'">
+                {{ book.status }}
+              </ion-badge>
+            </div>
+            <ion-badge class="book-status" color="medium" slot="end">
+              {{book.borrower.length}}/{{book.count}}
+            </ion-badge>
+          </div>
         </ion-item>
         <ion-item-options side="end">
           <ion-item-option (click)="deleteBook(book.id)" color="danger">Delete</ion-item-option>

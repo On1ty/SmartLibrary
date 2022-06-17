@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController, LoadingController } from '@ionic/angular';
+import { concat } from 'rxjs';
 import { DataService } from './../services/data.service';
 
 @Component({
@@ -11,15 +12,23 @@ import { DataService } from './../services/data.service';
 export class BorrowersPage implements OnInit {
 
   data: any = [];
+  action: any;
+  bookid: any;
+  book: any = [];
 
   constructor(
     private dataService: DataService,
     private router: Router,
     private alertController: AlertController,
     private loadingController: LoadingController,
+    private activatedRoute: ActivatedRoute,
   ) { }
 
   ngOnInit() {
+    this.action = this.activatedRoute.snapshot.paramMap.get('action');
+    this.bookid = this.activatedRoute.snapshot.paramMap.get('bookid');
+
+    console.log(this.action + "zzz");
     this.dataService.getBorrowers().subscribe(res => {
       this.data = res;
       console.log(res);
@@ -99,5 +108,66 @@ export class BorrowersPage implements OnInit {
         }],
     });
     confirm.present();
+  }
+
+  async borrow(borrower) {
+    const snap = this.dataService.getBooksById(this.bookid)
+    console.log(snap);
+    const alert = await this.alertController.create({
+      subHeader: 'Confirmation',
+      message: `Are you sure you to borrow "${this.book.title}"?`,
+      backdropDismiss: false,
+      buttons: [{
+        text: 'Cancel',
+      }, {
+        text: 'Yes',
+        handler: async () => {
+          const full = this.book.borrower.length == this.book.count;
+
+          // const borrow_book = {
+          //   id: this.book.id,
+          //   borrower:  ,
+          //   status: full ? 'unavailable' : 'available',
+          // }
+
+          console.log([`${borrower.first} ${borrower.last}`].push(this.book));
+
+          // this.dataService.updateBookBorrower(borrow_book)
+          //   .then(() => {
+          //     console.log(this.bookid);
+          //     console.log(borrower);
+
+          //     // const alert = await this.alertController.create({
+          //     //   subHeader: 'Message',
+          //     //   message: 'Successfully Borrowed',
+          //     //   backdropDismiss: false,
+          //     //   buttons: [{
+          //     //     text: 'Ok',
+          //     //     handler: () => {
+          //     //     }
+          //     //   }],
+          //     // });
+          //     // alert.present();
+
+          //     // this.router.navigate(['tabs/books']);
+          //   })
+          //   .catch(async (error) => {
+          //     let alert = await this.alertController.create({
+          //       subHeader: "Message",
+          //       message: error,
+          //       backdropDismiss: false,
+          //       buttons: [{
+          //         text: "Ok",
+          //         handler: () => {
+          //           alert.dismiss();
+          //         }
+          //       }],
+          //     });
+          //     alert.present();
+          //   });
+        }
+      }],
+    });
+    alert.present();
   }
 }

@@ -1,7 +1,10 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-buttons slot="start">
+    <ion-buttons slot="start" *ngIf="action == null">
       <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-buttons slot="start" *ngIf="action == 'borrow'">
+      <ion-back-button defaultHref="book-details/{{bookid}}"></ion-back-button>
     </ion-buttons>
     <ion-title>Borrowers</ion-title>
   </ion-toolbar>
@@ -16,22 +19,28 @@
   </div>
   <ion-list id="borrowersList" lines="none" class="ion-margin">
     <ion-item-sliding *ngFor="let val of data">
-      <div>
+      <div *ngIf="action == null">
         <ion-item (click)="details(val.id)">
-          <ion-avatar slot="start">
-            <img src="{{ val.img_64 }}" />
-          </ion-avatar>
-          <ion-label>
-            <h2>{{ val.last }} {{ val.first }} {{ val.middle }}</h2>
-          </ion-label>
+          <ion-thumbnail slot="start">
+            <img src="{{ val.img_64 }}">
+          </ion-thumbnail>
+          <ion-label>{{ val.last }} {{ val.first }} {{ val.middle }}</ion-label>
         </ion-item>
         <ion-item-options side="end">
           <ion-item-option (click)="delete(val.id)" color="danger">Delete</ion-item-option>
         </ion-item-options>
       </div>
+      <div *ngIf="action == 'borrow'">
+        <ion-item (click)="borrow(val)">
+          <ion-thumbnail slot="start">
+            <img src="{{ val.img_64 }}">
+          </ion-thumbnail>
+          <ion-label>{{ val.last }} {{ val.first }} {{ val.middle }}</ion-label>
+        </ion-item>
+      </div>
     </ion-item-sliding>
   </ion-list>
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed" (click)="navToReg();">
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed" (click)="navToReg();" *ngIf="action == null">
     <ion-fab-button>
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>

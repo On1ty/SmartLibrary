@@ -1,6 +1,6 @@
 import { DataService } from './../services/data.service';
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Storage } from '@ionic/storage-angular';
 import { AlertController, LoadingController, ModalController } from '@ionic/angular';
 
@@ -13,12 +13,14 @@ import { AlertController, LoadingController, ModalController } from '@ionic/angu
 export class BooksPage implements OnInit {
 
   books: any = [];
+  action: any;
 
   constructor(
     private dataService: DataService,
     private router: Router,
     private alertController: AlertController,
     private loadingController: LoadingController,
+    private activatedRoute: ActivatedRoute,
   ) { }
 
   ngOnInit() {

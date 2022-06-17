@@ -16,6 +16,7 @@ export class BookDetailsPage implements OnInit {
   errorCorrectionLevel: any;
   id: any;
   book: any = [];
+  selectedSegment: string = 'book_img';
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -56,7 +57,12 @@ export class BookDetailsPage implements OnInit {
           duration: 2000,
         });
         toast.present();
-      }, err => {
+      }, async (err) => {
+        let toast = await this.toastCtrl.create({
+          message: err,
+          duration: 3000,
+        });
+        toast.present();
         console.log(err);
       });
   }
@@ -82,7 +88,7 @@ export class BookDetailsPage implements OnInit {
               status: this.book.status == 'lost' ? 'available' : 'lost',
             }
 
-            this.dataService.updateBook(book)
+            this.dataService.updateBookStatus(book)
               .then(async () => {
                 let alert = await this.alertController.create({
                   subHeader: "Message",
@@ -119,5 +125,14 @@ export class BookDetailsPage implements OnInit {
         }],
     });
     alert.present();
+  }
+
+  segmentChange(event) {
+    console.log(event.target.value);
+    this.selectedSegment = event.target.value;
+  }
+
+  borrow() {
+    this.router.navigate(['borrowers/borrow/' + this.id]);
   }
 }

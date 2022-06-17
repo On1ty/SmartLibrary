@@ -3,22 +3,40 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="tabs/books"></ion-back-button>
     </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button color="primary" (click)="borrow()">Borrow</ion-button>
+    </ion-buttons>
     <ion-title>Book Details</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
   <div class="book-details">
-    <ion-card *ngIf="elementType" class="ion-text-center">
-      <ngx-qrcode [value]="id" [elementType]="elementType" [width]="300" [errorCorrectionLevel]="errorCorrectionLevel">
-      </ngx-qrcode>
-      <ion-card-content>
-        <ion-button class="download-btn" expand="full" color="tertiary" (click)="downloadQR()">
-          <ion-icon name="download" slot="start"></ion-icon>
-          Download QR Code
-        </ion-button>
-      </ion-card-content>
-    </ion-card>
+    <ion-segment value="book_img" mode="ios" (ionChange)="segmentChange($event)">
+      <ion-segment-button value="book_img">
+        <ion-label>Book Image</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="qr_code">
+        <ion-label>QR Code</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+    <div *ngIf="selectedSegment == 'book_img'">
+      <ion-card *ngIf="elementType" class="ion-text-center ion-padding">
+        <img src="{{ book.img_64 }}" alt="" width="250px" height="100%">
+      </ion-card>
+    </div>
+    <div *ngIf="selectedSegment == 'qr_code'">
+      <ion-card *ngIf="elementType" class="ion-text-center">
+        <ngx-qrcode [value]="id" [elementType]="elementType" [width]="300" [errorCorrectionLevel]="errorCorrectionLevel">
+        </ngx-qrcode>
+        <ion-card-content>
+          <ion-button class="download-btn" expand="full" color="tertiary" (click)="downloadQR()">
+            <ion-icon name="download" slot="start"></ion-icon>
+            Download QR Code
+          </ion-button>
+        </ion-card-content>
+      </ion-card>
+    </div>
     <ion-item class="ion-margin">
       <ion-label position="stacked">Book ID</ion-label>
       <ion-input placeholder="Null" [value]="book.id" readonly></ion-input>

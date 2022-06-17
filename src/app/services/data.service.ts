@@ -62,9 +62,14 @@ export class DataService {
     return deleteDoc(ref);
   }
 
-  updateBook(book) {
+  updateBookStatus(book) {
     const ref = doc(this.firestore, `books/${book.id}`);
     return updateDoc(ref, { status: book.status })
+  }
+
+  updateBookBorrower(book) {
+    const ref = doc(this.firestore, `books/${book.id}`);
+    return updateDoc(ref, { borrower: book.borrower })
   }
 
   deleteBorrower(id) {
