@@ -26,15 +26,13 @@
             <h3>{{ book.author }}</h3>
             <p>{{ book.description }}</p>
           </ion-label>
-          <div class="ion-text-center">
+          <div class="ion-text-center" style="width: 25%;">
             <div>
               <ion-badge class="book-status" color="success" slot="end" *ngIf="book.status == 'available'">
                 {{ book.status }}
               </ion-badge>
-              <ion-badge class="book-status" color="secondary" slot="end" *ngIf="book.status == 'borrowed'">
-                {{ book.status }}</ion-badge>
-              <ion-badge class="book-status" color="danger" slot="end" *ngIf="book.status == 'lost'">
-                {{ book.status }}
+              <ion-badge class="book-status" color="danger" slot="end" *ngIf="book.status == 'unavailable'">
+                Max
               </ion-badge>
             </div>
             <ion-badge class="book-status" color="medium" slot="end">

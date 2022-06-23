@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-import { ScanSheetPage } from '../modals/scan-sheet/scan-sheet.page';
 
 @Component({
   selector: 'app-tabs',

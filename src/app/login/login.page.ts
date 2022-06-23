@@ -42,31 +42,14 @@ export class LoginPage implements OnInit {
 
     const formData = this.loginForm.value;
 
-    this.dataService.testConnection().subscribe(async res => {
+    let testConnection = this.dataService.testConnection()
+      .subscribe(async res => {
+        testConnection.unsubscribe();
 
-      if (res.length <= 0) {
-        const alert = await this.alertController.create({
-          subHeader: 'Internet Connection',
-          message: 'Please check your internet connection',
-          backdropDismiss: false,
-          buttons: [{
-            text: 'Ok',
-            handler: () => {
-              alert.dismiss();
-            }
-          }],
-        });
-        alert.present();
-        return;
-      }
-
-      this.dataService.getUsers().subscribe(async res => {
-        const result = res.filter((user) => user.user === formData.user && user.password === formData.password);
-
-        if (!(result.length > 0)) {
+        if (res.length <= 0) {
           const alert = await this.alertController.create({
-            subHeader: 'Authetication Failed',
-            message: 'Wrong credentials. Please try again.',
+            subHeader: 'Internet Connection',
+            message: 'Please check your internet connection',
             backdropDismiss: false,
             buttons: [{
               text: 'Ok',
@@ -79,11 +62,32 @@ export class LoginPage implements OnInit {
           return;
         }
 
-        this.storage.set('user', result[0]);
-        console.log(result);
-        this.router.navigate(['home']);
+        let getLibrarian = this.dataService.getLibrarian()
+          .subscribe(async res => {
+            getLibrarian.unsubscribe();
+
+            const result = res.filter((user) => user.username === formData.user && user.password === formData.password);
+
+            if (!(result.length > 0)) {
+              const alert = await this.alertController.create({
+                subHeader: 'Authetication Failed',
+                message: 'Wrong credentials. Please try again.',
+                backdropDismiss: false,
+                buttons: [{
+                  text: 'Ok',
+                  handler: () => {
+                    alert.dismiss();
+                  }
+                }],
+              });
+              alert.present();
+              return;
+            }
+            this.storage.set('user', result[0]);
+            console.log(result);
+            this.router.navigate(['home']);
+          });
       });
-    });
 
     loading.dismiss();
   }

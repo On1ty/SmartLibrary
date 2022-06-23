@@ -111,63 +111,136 @@ export class BorrowersPage implements OnInit {
   }
 
   async borrow(borrower) {
-    const snap = this.dataService.getBooksById(this.bookid)
-    console.log(snap);
-    const alert = await this.alertController.create({
-      subHeader: 'Confirmation',
-      message: `Are you sure you to borrow "${this.book.title}"?`,
-      backdropDismiss: false,
-      buttons: [{
-        text: 'Cancel',
-      }, {
-        text: 'Yes',
-        handler: async () => {
-          const full = this.book.borrower.length == this.book.count;
+    if (borrower.borrowed_books.length == 3) {
+      let alert = await this.alertController.create({
+        subHeader: "Message",
+        message: "He/She will exceed to maximum book borrowed",
+        backdropDismiss: false,
+        buttons: [{
+          text: "Ok",
+          handler: () => {
+            alert.dismiss();
+          }
+        }],
+      });
+      alert.present();
+      return;
+    }
 
-          // const borrow_book = {
-          //   id: this.book.id,
-          //   borrower:  ,
-          //   status: full ? 'unavailable' : 'available',
-          // }
+    let getBooksById = this.dataService.getBooksById(this.bookid)
+      .subscribe(async (res) => {
+        getBooksById.unsubscribe();
 
-          console.log([`${borrower.first} ${borrower.last}`].push(this.book));
+        const already = res.borrower.find(elem => elem.id === borrower.id)
 
-          // this.dataService.updateBookBorrower(borrow_book)
-          //   .then(() => {
-          //     console.log(this.bookid);
-          //     console.log(borrower);
-
-          //     // const alert = await this.alertController.create({
-          //     //   subHeader: 'Message',
-          //     //   message: 'Successfully Borrowed',
-          //     //   backdropDismiss: false,
-          //     //   buttons: [{
-          //     //     text: 'Ok',
-          //     //     handler: () => {
-          //     //     }
-          //     //   }],
-          //     // });
-          //     // alert.present();
-
-          //     // this.router.navigate(['tabs/books']);
-          //   })
-          //   .catch(async (error) => {
-          //     let alert = await this.alertController.create({
-          //       subHeader: "Message",
-          //       message: error,
-          //       backdropDismiss: false,
-          //       buttons: [{
-          //         text: "Ok",
-          //         handler: () => {
-          //           alert.dismiss();
-          //         }
-          //       }],
-          //     });
-          //     alert.present();
-          //   });
+        if (already !== undefined) {
+          let alert = await this.alertController.create({
+            subHeader: "Message",
+            message: `He/She already borrowed this book [${res.title}]`,
+            backdropDismiss: false,
+            buttons: [{
+              text: "Ok",
+              handler: () => {
+                alert.dismiss();
+              }
+            }],
+          });
+          alert.present();
+          return;
         }
-      }],
-    });
-    alert.present();
+
+        const alert = await this.alertController.create({
+          subHeader: 'Confirmation',
+          message: `Are you sure you to borrow "${res.title}"?`,
+          backdropDismiss: false,
+          buttons: [{
+            text: 'Cancel',
+          }, {
+            text: 'Yes',
+            handler: async () => {
+              const full = Math.abs(res.borrower.length - res.count) == 1;
+
+              //for Books Collection
+              const borrower_map = {
+                id: borrower.id,
+                name: `${borrower.first} ${borrower.last}`,
+                date_borrowed: this.dataService.getCurrentDate(),
+                status: '',
+              };
+
+              //for Borrowers Collection
+              const borrowed_map = {
+                id: res.id,
+                title: res.title,
+                date_borrowed: this.dataService.getCurrentDate(),
+                status: '',
+              };
+
+              res.borrower.push(borrower_map);
+              borrower.borrowed_books.push(borrowed_map);
+
+              const borrow_book = {
+                id: res.id,
+                borrower: res.borrower,
+                status: full ? 'unavailable' : 'available',
+              }
+
+              const borrower_update = {
+                id: borrower.id,
+                borrowed_books: borrower.borrowed_books,
+              }
+
+              this.dataService.updateBorrowersBorrowedBooks(borrower_update)
+                .then(() => {
+                  this.dataService.updateBookBorrowerAndStatus(borrow_book)
+                    .then(async () => {
+                      const alert = await this.alertController.create({
+                        subHeader: 'Message',
+                        message: 'Successfully Borrowed',
+                        backdropDismiss: false,
+                        buttons: [{
+                          text: 'Ok',
+                          handler: () => {
+                            alert.dismiss();
+                            this.router.navigate(['tabs/books']);
+                          }
+                        }],
+                      });
+                      alert.present();
+                    })
+                    .catch(async (error) => {
+                      let alert = await this.alertController.create({
+                        subHeader: "Message",
+                        message: error,
+                        backdropDismiss: false,
+                        buttons: [{
+                          text: "Ok",
+                          handler: () => {
+                            alert.dismiss();
+                          }
+                        }],
+                      });
+                      alert.present();
+                    });
+                })
+                .catch(async (error) => {
+                  let alert = await this.alertController.create({
+                    subHeader: "Message",
+                    message: error,
+                    backdropDismiss: false,
+                    buttons: [{
+                      text: "Ok",
+                      handler: () => {
+                        alert.dismiss();
+                      }
+                    }],
+                  });
+                  alert.present();
+                });
+            }
+          }],
+        });
+        alert.present();
+      })
   }
 }

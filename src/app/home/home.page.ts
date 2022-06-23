@@ -27,12 +27,13 @@ export class HomePage implements OnInit {
     });
 
     this.dataService.getBooks().subscribe((res) => {
+      let books_count = 0;
 
-      let borrowed = res.filter((obj) => {
-        return obj.status == 'borrowed' && obj.borrower != '';
+      res.forEach((obj) => {
+        books_count += obj.borrower.length;
       });
 
-      this.total_borrowed = borrowed.length;
+      this.total_borrowed = books_count;
     });
 
     this.dataService.getBooks().subscribe((res) => {

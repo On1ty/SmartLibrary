@@ -59,8 +59,10 @@ export class ScanPage implements OnInit {
 
       if (id != "") {
 
-        this.dataService.getBooksById(id).
+        let getBooksById = this.dataService.getBooksById(id).
           subscribe(async book => {
+            getBooksById.unsubscribe();
+
             if (book === undefined) {
               const alert = await this.alertCtrl.create({
                 subHeader: 'Book QR Scan',

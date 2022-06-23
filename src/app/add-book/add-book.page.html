@@ -41,7 +41,11 @@
         </ion-item>
         <ion-item fill="outline">
           <ion-label position="floating">Shelf Number</ion-label>
-          <ion-input placeholder="Book shelf number" formControlName="shelf_no"></ion-input>
+          <ion-input type="number" placeholder="Book shelf number" formControlName="shelf_no"></ion-input>
+        </ion-item>
+        <ion-item fill="outline">
+          <ion-label position="floating">Book Count</ion-label>
+          <ion-input type="number" placeholder="Number of books" formControlName="book_count"></ion-input>
         </ion-item>
         <input type="file" (change)="loadImg($event)" formControlName="file_pic" accept="image/*" #file hidden />
       </div>

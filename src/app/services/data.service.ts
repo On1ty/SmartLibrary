@@ -32,8 +32,8 @@ export class DataService {
     return docData(ref, { idField: 'id' });
   }
 
-  getUsers() {
-    const ref = collection(this.firestore, 'users');
+  getLibrarian() {
+    const ref = collection(this.firestore, 'librarian');
     return collectionData(ref);
   }
 
@@ -43,37 +43,42 @@ export class DataService {
   }
 
   addBook(book) {
-    const ref = collection(this.firestore, 'books')
+    const ref = collection(this.firestore, 'books');
     return addDoc(ref, book);
   }
 
   addBorrower(borrower) {
-    const ref = collection(this.firestore, 'borrowers')
+    const ref = collection(this.firestore, 'borrowers');
     return addDoc(ref, borrower);
   }
 
   addLibrarian(librarian) {
-    const ref = collection(this.firestore, 'users')
+    const ref = collection(this.firestore, 'librarian');
     return addDoc(ref, librarian);
   }
 
   deleteBook(id) {
-    const ref = doc(this.firestore, `books/${id}`)
+    const ref = doc(this.firestore, `books/${id}`);
     return deleteDoc(ref);
   }
 
   updateBookStatus(book) {
     const ref = doc(this.firestore, `books/${book.id}`);
-    return updateDoc(ref, { status: book.status })
+    return updateDoc(ref, { status: book.status });
   }
 
-  updateBookBorrower(book) {
+  updateBookBorrowerAndStatus(book) {
     const ref = doc(this.firestore, `books/${book.id}`);
-    return updateDoc(ref, { borrower: book.borrower })
+    return updateDoc(ref, { borrower: book.borrower, status: book.status });
+  }
+
+  updateBorrowersBorrowedBooks(borrower) {
+    const ref = doc(this.firestore, `borrowers/${borrower.id}`);
+    return updateDoc(ref, { borrowed_books: borrower.borrowed_books });
   }
 
   deleteBorrower(id) {
-    const ref = doc(this.firestore, `borrowers/${id}`)
+    const ref = doc(this.firestore, `borrowers/${id}`);
     return deleteDoc(ref);
   }
 

@@ -73,10 +73,14 @@
       <ion-label position="stacked">Added By</ion-label>
       <ion-input placeholder="Null" [value]="book.added_by" readonly></ion-input>
     </ion-item>
-    <ion-item class="ion-margin">
-      <ion-label position="stacked">Borrower</ion-label>
-      <ion-input placeholder="Null" [value]="book.borrower" readonly></ion-input>
-    </ion-item>
+    <ion-list-header class="ion-margin">Borrower/s</ion-list-header>
+    <p class="ion-margin">
+      <!-- <ion-input placeholder="Null" [value]="book.borrower" readonly></ion-input> -->
+      <ion-text color="dark" *ngIf="book.borrower == ''" class="ion-margin">No borrowers</ion-text>
+      <ion-chip *ngFor="let val of book.borrower">
+        <ion-label>{{ val.name }}</ion-label>
+      </ion-chip>
+    </p>
     <ion-button expand="full" color="danger" (click)="updateStatus()" class="mark-btn">
       <span *ngIf="book.status != 'lost'">Mark as Lost</span>
       <span *ngIf="book.status == 'lost'">Unmark as Lost</span>

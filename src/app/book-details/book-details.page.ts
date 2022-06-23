@@ -17,6 +17,7 @@ export class BookDetailsPage implements OnInit {
   id: any;
   book: any = [];
   selectedSegment: string = 'book_img';
+  borrowers: any = [];
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -30,8 +31,10 @@ export class BookDetailsPage implements OnInit {
 
   ngOnInit() {
     const id = this.activatedRoute.snapshot.paramMap.get('id');
-    this.dataService.getBooksById(id)
+    let getBooksById = this.dataService.getBooksById(id)
       .subscribe(res => {
+        getBooksById.unsubscribe();
+
         if (res !== undefined) {
           this.id = id;
           this.elementType = NgxQrcodeElementTypes.CANVAS;
@@ -132,7 +135,22 @@ export class BookDetailsPage implements OnInit {
     this.selectedSegment = event.target.value;
   }
 
-  borrow() {
+  async borrow() {
+    if (this.book.status == "unavailable") {
+      let alert = await this.alertController.create({
+        subHeader: "Message",
+        message: "Out of capacity",
+        backdropDismiss: false,
+        buttons: [{
+          text: "Ok",
+          handler: () => {
+          }
+        }],
+      });
+      alert.present();
+      return;
+    }
+
     this.router.navigate(['borrowers/borrow/' + this.id]);
   }
 }

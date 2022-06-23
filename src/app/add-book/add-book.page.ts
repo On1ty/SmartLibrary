@@ -19,6 +19,7 @@ export class AddBookPage implements OnInit {
     description: new FormControl('', Validators.required),
     genre: new FormControl('', Validators.required),
     shelf_no: new FormControl('', [Validators.required, Validators.pattern("^[0-9]*$")]),
+    book_count: new FormControl('', [Validators.required, Validators.pattern("^[0-9]*$")]),
   });
 
   @ViewChild('file', { static: false }) file;
@@ -36,8 +37,12 @@ export class AddBookPage implements OnInit {
     this.storage.create();
   }
 
-  ngOnInit() {
-    this.storage.get('user').then(res => this.user = res)
+  async ngOnInit() {
+    // this.storage.get('user')
+    //   .then(res => this.user = res)
+
+    this.user = await this.storage.get('user');
+    console.log(this.user);
   }
 
   openGallery() {
@@ -83,10 +88,11 @@ export class AddBookPage implements OnInit {
     loading.present();
 
     const formData = this.addBookForm.value;
+
     const addBookObj = [formData].map(obj => ({
-      added_by: this.user.name,
+      added_by: `${this.user.first} ${this.user.last}`,
       author: obj.author,
-      borrower: '',
+      borrower: [],
       date_added: this.dataService.getCurrentDate(),
       description: obj.description,
       genre: obj.genre,
@@ -95,6 +101,7 @@ export class AddBookPage implements OnInit {
       shelf_no: obj.shelf_no,
       status: 'available',
       title: obj.title,
+      count: obj.book_count,
     }));
 
     console.log(addBookObj[0]);

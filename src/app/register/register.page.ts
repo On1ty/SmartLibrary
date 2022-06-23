@@ -103,6 +103,7 @@ export class RegisterPage implements OnInit {
       img_64: this.src,
       reg_by: this.user.name,
       reg_date: this.dataService.getCurrentDate(),
+      borrowed_books: [],
     }));
 
     console.log(borrowerObj[0]);
@@ -166,14 +167,8 @@ export class RegisterPage implements OnInit {
     loading.present();
 
     const formData = this.regLibrarianForm.value;
-    const librarianObj = [formData].map(obj => ({
-      name: `${obj.first} ${obj.middle} ${obj.last}`,
-      user: obj.username,
-      password: obj.password,
-    }));
 
-    console.log(librarianObj[0]);
-    this.dataService.addLibrarian(librarianObj[0])
+    this.dataService.addLibrarian(formData)
       .then(async () => {
         let alert = await this.alertController.create({
           subHeader: "Message",
