@@ -42,6 +42,11 @@ export class DataService {
     return collectionData(ref, { idField: 'id' });
   }
 
+  getReports() {
+    const ref = collection(this.firestore, 'reports');
+    return collectionData(ref, { idField: 'id' });
+  }
+
   addBook(book) {
     const ref = collection(this.firestore, 'books');
     return addDoc(ref, book);
@@ -55,6 +60,11 @@ export class DataService {
   addLibrarian(librarian) {
     const ref = collection(this.firestore, 'librarian');
     return addDoc(ref, librarian);
+  }
+
+  addReport(report) {
+    const ref = collection(this.firestore, 'reports');
+    return addDoc(ref, report);
   }
 
   deleteBook(id) {
@@ -84,6 +94,15 @@ export class DataService {
 
   getCurrentDate() {
     return moment().format("MM/DD/YYYY");
+  }
+
+  getDueDate() {
+    const ref = collection(this.firestore, 'due_date');
+    return collectionData(ref);
+  }
+
+  computeDueDate(date, days) {
+    return moment(date).add(days, 'days').format("MM/DD/YYYY");
   }
 
   getAltBookImage() {

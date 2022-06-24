@@ -17,7 +17,7 @@
       <ion-skeleton-text animated style="width: 100%; height: 7vh !important"></ion-skeleton-text>
     </div>
   </div>
-  <ion-list id="borrowersList" lines="none" class="ion-margin">
+  <ion-list id="borrowersList" lines="none" class="">
     <ion-item-sliding *ngFor="let val of data">
       <div *ngIf="action == null">
         <ion-item (click)="details(val.id)">

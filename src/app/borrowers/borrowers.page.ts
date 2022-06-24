@@ -28,7 +28,7 @@ export class BorrowersPage implements OnInit {
     this.action = this.activatedRoute.snapshot.paramMap.get('action');
     this.bookid = this.activatedRoute.snapshot.paramMap.get('bookid');
 
-    console.log(this.action + "zzz");
+    console.log(this.action);
     this.dataService.getBorrowers().subscribe(res => {
       this.data = res;
       console.log(res);
@@ -190,23 +190,48 @@ export class BorrowersPage implements OnInit {
                 borrowed_books: borrower.borrowed_books,
               }
 
-              this.dataService.updateBorrowersBorrowedBooks(borrower_update)
+              const report = {
+                action: 'borrow',
+                book: res.title,
+                borrower: `${borrower.first} ${borrower.last}`,
+                date_report: this.dataService.getCurrentDate(),
+                status: 'success',
+              }
+
+              this.dataService.addReport(report)
                 .then(() => {
-                  this.dataService.updateBookBorrowerAndStatus(borrow_book)
-                    .then(async () => {
-                      const alert = await this.alertController.create({
-                        subHeader: 'Message',
-                        message: 'Successfully Borrowed',
-                        backdropDismiss: false,
-                        buttons: [{
-                          text: 'Ok',
-                          handler: () => {
-                            alert.dismiss();
-                            this.router.navigate(['tabs/books']);
-                          }
-                        }],
-                      });
-                      alert.present();
+                  this.dataService.updateBorrowersBorrowedBooks(borrower_update)
+                    .then(() => {
+                      this.dataService.updateBookBorrowerAndStatus(borrow_book)
+                        .then(async () => {
+                          const alert = await this.alertController.create({
+                            subHeader: 'Message',
+                            message: 'Successfully Borrowed',
+                            backdropDismiss: false,
+                            buttons: [{
+                              text: 'Ok',
+                              handler: () => {
+                                alert.dismiss();
+                                this.router.navigate(['tabs/books']);
+                              }
+                            }],
+                          });
+                          alert.present();
+                        })
+                        .catch(async (error) => {
+                          let alert = await this.alertController.create({
+                            subHeader: "Message",
+                            message: error,
+                            backdropDismiss: false,
+                            buttons: [{
+                              text: "Ok",
+                              handler: () => {
+                                alert.dismiss();
+                              }
+                            }],
+                          });
+                          alert.present();
+                        });
                     })
                     .catch(async (error) => {
                       let alert = await this.alertController.create({
@@ -236,7 +261,7 @@ export class BorrowersPage implements OnInit {
                     }],
                   });
                   alert.present();
-                });
+                })
             }
           }],
         });

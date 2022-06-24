@@ -14,22 +14,23 @@
       <ion-skeleton-text animated style="width: 100%; height: 7vh !important"></ion-skeleton-text>
     </div>
   </div>
-  <!-- <ion-list id="reportsList" lines="none" class="ion-margin">
+  <ion-list id="reportsList" lines="none" class="">
     <ion-item-sliding *ngFor="let report of reports">
       <div>
-        <ion-item (click)="borrowerDetails(borrower.id)">
-          <ion-avatar slot="start">
-            <img src="{{ borrower.img_64 }}" />
-          </ion-avatar>
+        <ion-item lines="full">
+          <ion-thumbnail slot="start">
+            <img *ngIf="report.action == 'return'" alt="return" src="../assets/report/return.png">
+            <img *ngIf="report.action == 'borrow'" alt="borrow" src="../assets/report/borrow.png">
+          </ion-thumbnail>
           <ion-label>
-            <h2>{{ borrower.last }}</h2>
-            <h3>{{ borrower.first }} {{ borrower.middle }}</h3>
+            <h3>Book: {{ report.book }}</h3>
+            <p>Borrower: {{ report.borrower }}</p>
+            <ion-badge color="primary">Due {{ report.due_date }}</ion-badge>
+            <ion-badge color="secondary" class="text-capitalize">{{ report.status }}</ion-badge>
+            <ion-badge color="tertiary" class="text-capitalize">{{ report.action }}</ion-badge>
           </ion-label>
         </ion-item>
-        <ion-item-options side="end">
-          <ion-item-option (click)="deleteBorrowers(borrowers.id)" color="danger">Delete</ion-item-option>
-        </ion-item-options>
       </div>
     </ion-item-sliding>
-  </ion-list> -->
+  </ion-list>
 </ion-content>
