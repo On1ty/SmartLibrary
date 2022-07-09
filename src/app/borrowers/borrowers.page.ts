@@ -182,7 +182,7 @@ export class BorrowersPage implements OnInit {
               const borrow_book = {
                 id: res.id,
                 borrower: res.borrower,
-                status: full ? 'unavailable' : 'available',
+                // status: full ? 'unavailable' : 'available',
               }
 
               const borrower_update = {
@@ -202,11 +202,11 @@ export class BorrowersPage implements OnInit {
                 .then(() => {
                   this.dataService.updateBorrowersBorrowedBooks(borrower_update)
                     .then(() => {
-                      this.dataService.updateBookBorrowerAndStatus(borrow_book)
+                      this.dataService.updateBookBorrower(borrow_book)
                         .then(async () => {
                           const alert = await this.alertController.create({
                             subHeader: 'Message',
-                            message: 'Successfully Borrowed',
+                            message: 'Successfully borrow book',
                             backdropDismiss: false,
                             buttons: [{
                               text: 'Ok',

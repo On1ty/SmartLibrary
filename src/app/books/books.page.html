@@ -1,7 +1,10 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-buttons slot="start">
+    <ion-buttons slot="start" *ngIf="action == null">
       <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-buttons slot="start" *ngIf="action == 'return'">
+      <ion-back-button defaultHref="borrower-details/{{borrowerid}}"></ion-back-button>
     </ion-buttons>
     <ion-title>Books</ion-title>
   </ion-toolbar>
@@ -16,7 +19,7 @@
   </div>
   <ion-list id="bookList" lines="none">
     <ion-item-sliding *ngFor="let book of books">
-      <div>
+      <div *ngIf="action == null">
         <ion-item (click)="bookDetails(book.id)">
           <ion-thumbnail slot="start">
             <img src="{{ book.img_64 }}">
@@ -44,9 +47,21 @@
           <ion-item-option (click)="deleteBook(book.id)" color="danger">Delete</ion-item-option>
         </ion-item-options>
       </div>
+      <div *ngIf="action == 'return'">
+        <ion-item (click)="returnBook(book)">
+          <ion-thumbnail slot="start">
+            <img src="{{ book.img_64 }}">
+          </ion-thumbnail>
+          <ion-label>
+            <h2>{{ book.title }}</h2>
+            <h3>{{ book.author }}</h3>
+            <p>{{ book.description }}</p>
+          </ion-label>
+        </ion-item>
+      </div>
     </ion-item-sliding>
   </ion-list>
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed" (click)="navToAddBook();">
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed" (click)="navToAddBook();" *ngIf="action == null">
     <ion-fab-button>
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>

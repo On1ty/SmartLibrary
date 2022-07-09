@@ -33,4 +33,24 @@ export class BorrowerDetailsPage implements OnInit {
       });
   }
 
+  async returnBook() {
+    if (this.borrower.borrowed_books.length <= 0) {
+      let alert = await this.alertController.create({
+        subHeader: "Message",
+        message: "He/She does not borrowed any books",
+        backdropDismiss: false,
+        buttons: [{
+          text: "Ok",
+          handler: () => {
+            alert.dismiss();
+          }
+        }],
+      });
+      alert.present();
+      return;
+    }
+
+    this.router.navigate(['books/return/' + this.id]);
+  }
+
 }

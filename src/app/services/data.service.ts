@@ -77,9 +77,9 @@ export class DataService {
     return updateDoc(ref, { status: book.status });
   }
 
-  updateBookBorrowerAndStatus(book) {
+  updateBookBorrower(book) {
     const ref = doc(this.firestore, `books/${book.id}`);
-    return updateDoc(ref, { borrower: book.borrower, status: book.status });
+    return updateDoc(ref, { borrower: book.borrower });
   }
 
   updateBorrowersBorrowedBooks(borrower) {
@@ -103,6 +103,10 @@ export class DataService {
 
   computeDueDate(date, days) {
     return moment(date).add(days, 'days').format("MM/DD/YYYY");
+  }
+
+  checkDueDate(date_borrowed) {
+    return moment().isAfter(moment(date_borrowed));
   }
 
   getAltBookImage() {
